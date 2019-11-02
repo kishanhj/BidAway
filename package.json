@@ -1,0 +1,24 @@
+{
+  "name": "bidaway",
+  "version": "1.0.0",
+  "description": "A bidding application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kishanhj/BidAway.git"
+  },
+  "author": "Group 6",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kishanhj/BidAway/issues"
+  },
+  "homepage": "https://github.com/kishanhj/BidAway#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mango": "0.0.4"
+  }
+}
