@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"start": "node app.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,9 @@
   "homepage": "https://github.com/kishanhj/BidAway#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mango": "0.0.4"
+    "mongo": "^0.1.0",
+    "nodemon": "^1.19.4",
+    "passport": "^0.4.0",
+    "socket.io": "^2.3.0"
   }
 }
