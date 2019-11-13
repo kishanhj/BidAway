@@ -19,9 +19,11 @@
   "homepage": "https://github.com/kishanhj/BidAway#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
     "mongo": "^0.1.0",
     "nodemon": "^1.19.4",
     "passport": "^0.4.0",
+    "password-hash": "^1.2.2",
     "socket.io": "^2.3.0"
   }
 }

@@ -1,0 +1,22 @@
+<article class="user">
+  <h1>{{ user.username }}</h1>
+  <h2>Email ID</h2>
+  <h3>{{ user.emailid}}</h3>
+  <h3> Mobile Number</h3>
+  <h3>{{ user.phone_num}}</h3>
+  <h3> Date of Birth</h3>
+  <h3>{{ user.DOB}}</h3>
+  <h3> Age</h3>
+  <h3>{{ age}}</h3>
+
+   <form action="/" method="GET" class="new-post-form">
+        <button type="submit"> Login </button>
+  </form>
+
+  <form action="/users/passwordchange/{{ user._id }}" method="GET" class="new-post-form">
+        <button type="submit">Change password</button>
+  </form>
+  
+
+  
+</article>

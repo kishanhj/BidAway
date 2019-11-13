@@ -1,0 +1,45 @@
+<article class="new-post">
+  <h1>Create new User</h1>
+  {{#if hasErrors}}
+  <ul class="error-list">
+    {{#each errors}}
+    <li>
+      {{this}}
+    </li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <form action="/users" method="POST" class="new-post-form">
+    <label>
+      Username:
+      <input type="text" name="username" placeholder="username more than six characters" value="{{userinfo.username}}" class="full-width-input"/>
+    </label>
+    <label>
+      Phone Number:
+      <input type="number" name="phone_num" placeholder="XXXXXXXXXX" value="{{userinfo.phone_num}}" class="full-width-input"/>
+    </label>
+    <label>
+      Email ID:
+      <input type="text" name="emailid"  placeholder="a****@xxx.com"  value="{{userinfo.emailid}}" class="full-width-input"/>
+    </label>
+    <label>
+      Password:
+      <input type="password" name="password" placeholder="" class="full-width-input"/>
+    </label>
+    <label>
+      Date of Birth:
+      <input type="date" name="DOB" placeholder="YYYY-MM-DD" value="{{userinfo.DOB}}" class="full-width-input"/>
+    </label>
+
+ 
+    <button type="submit">Submit</button>
+    <button type="reset">Clear Form</button>
+    <button type="button">Click me!</button>
+  </form>
+
+  {{#if hasErrors}}
+  <p>{{error}}</p>
+  {{/if}}
+</article>
+
+
