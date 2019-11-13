@@ -10,7 +10,6 @@ const constructorMethod = app => {
     app.use("/users", userroutes);
 
 
-
   
     app.use("*", (req, res) => {
       res.sendStatus(404);
