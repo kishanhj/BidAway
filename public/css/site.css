@@ -1,0 +1,28 @@
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    line-height: 1.5;
+    font-size: 16px;
+}
+
+.cat-item {
+    display: inline-block;
+    border: 1px solid gray;
+    padding: 0.2em;
+}
+
+.cat-item-starttime {
+    font-size: 0.9rem;
+}
+
+.cat-item-img {
+    text-align: center;
+}
+
+.cat-name {
+    margin-bottom: 0px;
+}
