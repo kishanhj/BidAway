@@ -223,5 +223,5 @@ const updateBid =  async function updateBid(id, title, content) {
 
 
 module.exports = {
-    addBid,getBidByID, getAllBids,removeBid,updateBid,getBidByCategory,getAllActiveBids
+    addBid,getBidByID, getAllBids,updateBid,getBidByCategory,getAllActiveBids
 }
