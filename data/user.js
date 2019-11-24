@@ -42,11 +42,12 @@ async function createuser(username,emailid,password,phonenum, DOB){
         items_won:[],
         email_verfication:false,
         reports:0,
-        isactive:true
+        isactive:true,
+        lowerusername:username.toLowerCase()
 
     }
     const usercollection= await userdata()
-    const user= await usercollection.findOne({username:username})
+    const user= await usercollection.findOne({lowerusername:username.toLowerCase()})
     const user1= await usercollection.findOne({emailid:emailid})
     const user2= await usercollection.findOne({phone_num:phonenum})
     if(user){

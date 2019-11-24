@@ -125,10 +125,19 @@ router.put("/:id/passwordchange", async function(req,res){
 
 })
 
-router.get("/:id", async function(req,res){
+router.get("/userdetails", async function(req,res){
     try{
-        const user= await userData.getuser(req.params.id)
-        res.status(200).json(user)
+        console.log(req.session)
+        if(req.session.isloggedin=true || req.session.isloggedin===undefined){
+            const user= await userData.getuser(req.session.userdata)
+            console.log(1)
+            res.status(200).render("profile",{user:user})
+
+        }
+        else{
+            res.status(403).json({user:"user has not logged in"})
+        }
+        
     }
     catch(e){
         res.sendStatus(500)
@@ -144,8 +153,11 @@ router.post("/userlogin",async function(req,res){
     try{
         
         const userlogin=  await userData.verifyuser(userdetail.username,userdetail.password)
-        res.status(200).render("profile",{user:userlogin})
-        return;
+        console.log(userlogin);
+        req.session.userdata=userlogin._id
+        req.session.isloggedin=true
+        console.log(req.session)
+        res.redirect("users/userdetails")
     }
     catch(e){
         res.status(400).json({error:e})

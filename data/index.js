@@ -1,9 +1,10 @@
 const userdata=require("./user")
+const commments=require("./comments")
 
 // async function main(){
 //     try{
-//         const userinfo= await userdata.createuser("Annmj","ann.saj@gmail.com","abinisthebest","8623016769")
-//     console.log(userinfo)
+//         const comment= await commments.deletecomment("5ddaec0af7c634cd7088a417")
+        
 
 //     }
 //     catch(e){
@@ -15,5 +16,6 @@ const userdata=require("./user")
 // main()
 
 module.exports={
-    users:userdata
+    users:userdata,
+    comments:commments
 }

@@ -4,6 +4,14 @@ const bidRoutes = require("../routes/bids");
 const itemRoutes = require("../routes/items");
 
 const constructorMethod = app => {
+    app.get("/",(req,res,next)=>{
+        if(req.session.isloggedin!==undefined || req.session.isloggedin===true){
+            res.redirect("users/userdetails");
+        }
+        else{
+            next();
+        }
+    })
     app.get("/", (req, res) => {
         res.render('index',{title:"User Login"})
     })
