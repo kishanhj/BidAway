@@ -30,19 +30,24 @@ router.post("/",async function(req,res){
     if(!userinfo.DOB){
         error.push("No Date of Birth Entered")
     }
+    
 
     if(error.length>0){
         res.status(400).render('newuser',{title:"Create New User",hasErrors:true,errors:error,userinfo:userinfo})
         return;
     }
     try{
-        const newuser= await userData.createuser(userinfo.username,userinfo.emailid,userinfo.password,userinfo.phone_num,userinfo.DOB)
+        const newuser= await userData.createuser(userinfo.username,userinfo.emailid,userinfo.password,userinfo.phone_num,userinfo.DOB,userinfo.category)
         date1= new Date(userinfo.DOB)
+        
         date2= new Date()
+        
         let age = date2.getFullYear() - date1.getFullYear();
+        
         if (date2.getMonth() < date1.getMonth() || (date2.getMonth() == date1.getMonth() && date2.getDate() < date1.getDate())) {
             age=age-1;
         }
+       
         res.status(200).render('profile',{user: newuser,age:age})
         return;
     }

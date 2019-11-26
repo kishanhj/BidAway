@@ -5,7 +5,7 @@ const passwordhash=require('password-hash')
 
 
 
-async function createuser(username,emailid,password,phonenum, DOB){
+async function createuser(username,emailid,password,phonenum, DOB,category){
 
     if(!username) throw "username is undefined"
     if(typeof username!="string") throw "username is not of type string"
@@ -28,6 +28,8 @@ async function createuser(username,emailid,password,phonenum, DOB){
     if(!DOB) throw "No DOB entered"
     if(typeof DOB!="string") throw "DOB is not of type string"
 
+    if(!category) throw "No Category mentioned"
+
     
 
     let hashpassword=passwordhash.generate(password);
@@ -38,12 +40,14 @@ async function createuser(username,emailid,password,phonenum, DOB){
         password:hashpassword,
         phone_num:phonenum,
         DOB:DOB,
+        categoryinterest:category,
         items_sold:[],
         items_won:[],
         email_verfication:false,
         reports:0,
         isactive:true,
-        lowerusername:username.toLowerCase()
+        lowerusername:username.toLowerCase(),
+        comments:[]
 
     }
     const usercollection= await userdata()
@@ -105,6 +109,10 @@ async function updateuser(id, updatedinfo){
     if(updatedinfo.newPhoneNum){
         if(updatedinfo.newPhoneNum.length !=10  || isNaN(Number(updatedinfo.newPhoneNum))) throw "Incorrect Phone number format written"
         updateduserinfo.phone_num=updatedinfo.newPhoneNum
+    }
+
+    if(updatedinfo.category){
+        updateduserinfo.categoryinterest=updatedinfo.category 
     }
     const usercollection=await userdata()
     const userupdated= await usercollection.updateOne({_id:ObjectID(id)},{$set:updateduserinfo})

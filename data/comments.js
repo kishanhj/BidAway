@@ -33,7 +33,10 @@ async function createcomment(userid,itemid,comment,ratings){
 
     const commentcollection= await commentdata()
     const insertedcomment= await commentcollection.insertOne(newcomment)
+    const newid= insertedcomment.insertedId;
     if(insertedcomment.insertedCount==0) throw new Error("The comment could not be added")
+    const itemadd=await itemcollection.update({_id:ObjectID(itemid)},{$addToSet:{comments:String(newid)}})
+    const useradd=await usercollection.update({_id:ObjectID(userid)},{$addToSet:{comments:String(newid)}})
     return newcomment
 
 
@@ -79,11 +82,15 @@ async function deletecomment(id){
         throw "Please enter an id"
     }
 
-    this.getcomment(id)
+    const comment= await getcomment(id)
+    const itemcollection= await itemdata()
+    const usercollection=await userdata()
+    const deleteitem= await itemcollection.update({_id:ObjectID(comment.itemid)},{$pull:{comments:String(comment._id)}})
+    const deleteuser= await usercollection.update({_id:ObjectID(comment.userid)},{$pull:{comments:String(comment._id)}})
     const commentcollection=await commentdata();
     const item= await commentcollection.removeOne({_id:ObjectID(id)})
-    if(item.deletedCount===0) throw "Item could not be deleted"
-
+    if(item.deletedCount===0) throw "comment could not be deleted"
+    return comment
 
 }
 
