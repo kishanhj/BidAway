@@ -24,11 +24,11 @@ const getItemById = async (id) => {
     const commentcollection= await commentdata();
     if(item.comments.length>0){
         for(let i=0;i<item.comments.length;i++){
-            console.log(item.comments[i])
-            let commentdata= await commentcollection.findOne({_id:ObjectID(item.comments[i])})
-            comments.push({id:commentdata._id,comment:commentdata.comment,ratings:commentdata.ratings})
+            let comment =await commentcollection.findOne({_id:ObjectID(item.comments[i]._id)})
+            comments.push({id:comment._id,comment:comment.comment,userid:comment.userid})
         }
     }
+   
     item.comments=comments
     return item;
 };

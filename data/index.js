@@ -2,20 +2,20 @@ const userdata=require("./user")
 const commments=require("./comments")
 const items= require("./items")
 
-async function main(){
-    try{
-        const comment= await items.removeItem("5dd72b4764cd8f8f3dfa772c")
-        console.log(comment)
+// async function main(){
+//     try{
+//         const comment= await items.removeItem("5dd72b4764cd8f8f3dfa772c")
+//         console.log(comment)
         
 
-    }
-    catch(e){
-        console.log(e)
-    }
+//     }
+//     catch(e){
+//         console.log(e)
+//     }
     
-}
+// }
 
-main()
+//main()
 
 module.exports={
     users:userdata,
