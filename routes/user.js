@@ -132,20 +132,23 @@ router.put("/:id/passwordchange", async function(req,res){
 
 router.get("/userdetails", async function(req,res){
     try{
-       
-        if(req.session.isloggedin=true || req.session.isloggedin===undefined){
+       console.log(req.session);
+        if(req.session.isloggedin==true){
             const user= await userData.getuser(req.session.userdata)
             
-            res.status(200).render("profile",{user:user})
+            res.status(200).render("profile",{user:user,isloggedin:req.session.isloggedin})
+            return;
 
         }
         else{
-            res.status(403).json({user:"user has not logged in"})
+            res.status(403).redirect("/")
+            return;
         }
         
     }
     catch(e){
         res.sendStatus(500)
+        return;
     }
 })
 
@@ -161,13 +164,27 @@ router.post("/userlogin",async function(req,res){
         console.log(userlogin);
         req.session.userdata=userlogin._id
         req.session.isloggedin=true
-        console.log(req.session)
-        res.redirect("userdetails")
+        const user= await userData.getuser(req.session.userdata)
+        res.status(200).render("profile",{user:user,isloggedin:req.session.isloggedin})
     }
     catch(e){
         res.status(400).json({error:e})
         return;
     }
+})
+
+router.get("/logout",async function(req,res){
+    if(req.session.isloggedin===undefined || req.session.isloggedin===false){
+        res.redirect("/");
+        return;
+      }
+      req.session.isLoggedIn=false
+      req.session.destroy();
+      
+      
+      res.redirect("/")
+    
+      return;
 })
 
 module.exports=router

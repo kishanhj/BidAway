@@ -11,14 +11,22 @@
   <h3> Category of Interest</h3>
   <h3>{{ user.categoryinterest }}</h3>
 
-   <form action="/" method="GET" class="new-post-form">
-        <button type="submit"> Login </button>
-  </form>
+  
 
   <form action="/users/passwordchange/{{ user._id }}" method="GET" class="new-post-form">
         <button type="submit">Change password</button>
   </form>
-  
+
+  {{#if isloggedin}}
+  <form action="/users/logout" method="GET" class="new-post-form">
+        <button type="submit"> Logout </button>
+  </form>
+  {{else}}
+   <form action="/" method="GET" class="new-post-form">
+        <button type="submit"> Login </button>
+  </form>
+
+  {{/if}}
 
   
 </article>
