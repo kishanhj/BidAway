@@ -4,7 +4,9 @@ const data = require("../data");
 const userData = data.users
 
 router.get("/" ,async function(req,res){
-    res.render("newuser",{title:"Create New User"})
+    
+    res.status(200).render("newuser",{title:"Create New User"})
+
 })
 
 
@@ -165,7 +167,7 @@ router.post("/userlogin",async function(req,res){
         req.session.userdata=userlogin._id
         req.session.isloggedin=true
         const user= await userData.getuser(req.session.userdata)
-        res.status(200).render("profile",{user:user,isloggedin:req.session.isloggedin})
+        res.redirect("/item")
     }
     catch(e){
         res.status(400).json({error:e})
@@ -175,14 +177,14 @@ router.post("/userlogin",async function(req,res){
 
 router.get("/logout",async function(req,res){
     if(req.session.isloggedin===undefined || req.session.isloggedin===false){
-        res.redirect("/");
+        res.redirect("/item");
         return;
       }
       req.session.isLoggedIn=false
       req.session.destroy();
       
       
-      res.redirect("/")
+      res.redirect("/item")
     
       return;
 })

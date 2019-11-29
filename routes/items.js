@@ -2,6 +2,7 @@ const express = require("express");
 const ObjectID = require('mongodb').ObjectID;
 const router = express.Router();
 const items = require("../data/items");
+const userData = require("../data/user");
 
 const isValidString = (str) => {
     return typeof str === 'string' && str.length > 0;
@@ -29,10 +30,16 @@ router.get("/", async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
         return;
     }
-    
+    let user={}
+    if(req.session.userdata!==undefined){
+        user= await userData.getuser(req.session.userdata)
+    }
+    console.log(req.session);
     res.render('browse', {
         categories,
-        items: allItems
+        items: allItems,
+        isloggedin:req.session.isloggedin,
+        user:user
     });
 });
 

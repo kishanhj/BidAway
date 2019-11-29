@@ -14,34 +14,39 @@
       Username:
       <input type="text" name="username" placeholder="username more than six characters" value="{{userinfo.username}}" class="full-width-input"/>
     </label>
+    <br>
     <label>
       Phone Number:
       <input type="number" name="phone_num" placeholder="XXXXXXXXXX" value="{{userinfo.phone_num}}" class="full-width-input"/>
     </label>
+    <br>
     <label>
       Email ID:
       <input type="text" name="emailid"  placeholder="a****@xxx.com"  value="{{userinfo.emailid}}" class="full-width-input"/>
     </label>
+    <br>
     <label>
       Password:
       <input type="password" name="password" placeholder="" class="full-width-input"/>
     </label>
+    <br>
     <label>
       Date of Birth:
       <input type="date" name="DOB" placeholder="YYYY-MM-DD" value="{{userinfo.DOB}}" class="full-width-input"/>
     </label>
-    <label>
+    <br>
+    <label for="category">
       Category of Interest:
-      Electronics<input type="checkbox" name="category"  value="Electronics" class="full-width-input" checked/>
-      AutoMobile<input type="checkbox" name="category"  value="AutoMobile" class="full-width-input"/>
-      Furniture<input type="checkbox" name="category"  value="Furniture" class="full-width-input"/>
+       </label>
+      Electronics<input type="checkbox" name="category" id="category" value="Electronics" class="full-width-input" checked/>
+      AutoMobile<input type="checkbox" name="category"  id="category" value="AutoMobile" class="full-width-input"/>
+      Furniture<input type="checkbox" name="category"  id="category" value="Furniture" class="full-width-input"/>
 
-    </label>
+    <br>
 
  
     <button type="submit">Submit</button>
-    <button type="reset">Clear Form</button>
-    <button type="button">Click me!</button>
+    
   </form>
 
   {{#if hasErrors}}
