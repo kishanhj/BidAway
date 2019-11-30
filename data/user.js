@@ -155,13 +155,13 @@ async function verifyuser(UserName, password){
     const usercollection= await userdata()
     const user= await usercollection.findOne({username:UserName})
     if(user===null){
-        throw "no user with that username"
+        throw "Incorrect Username/password entered"
     }
     if(passwordhash.verify(password,user.password)){
         return user
     }
     else{
-        throw "wrong password"
+        throw "Incorrect Username/password entered"
     }
      
 }

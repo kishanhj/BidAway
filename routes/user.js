@@ -4,7 +4,8 @@ const data = require("../data");
 const userData = data.users
 
 router.get("/" ,async function(req,res){
-    
+    console.log(req.body._method)
+    console.log(req)
     res.status(200).render("newuser",{title:"Create New User"})
 
 })
@@ -59,36 +60,39 @@ router.post("/",async function(req,res){
     }
 })
 
-router.put("/:id",async function(req,res){
-    updateduserinfo=req.body
+// router.post("/:id",async function(req,res){
+//     console.log(1)
+//     updateduserinfo=req.body
+//     console.log(req.params)
     
-    updateuser={}
-    if(!updateduserinfo){
-        res.sendStatus(404)
-    }
-    if(updateduserinfo.newUserName){
-        updateuser.newUserName=updateduserinfo.newUserName
-    }
-    if(updateduserinfo.newEmailId){
-        updateuser.newEmailId=updateduserinfo.newEmailId
-    }
-    if(updateduserinfo.newPhoneNum){
-        updateuser.newPhoneNum=updateduserinfo.newPhoneNum
-    }
-    try{
-        await userData.getuser(req.params.id)
-    }
-    catch(e){
-        res.status(404).json({error:e})
-    }
-    try{
-        const user=await userData.updateuser(req.params.id,updateuser)
-        res.status(202).json(user)
-    }
-    catch(e){
-        res.sendStatus(500)
-    }
-})
+//     updateuser={}
+//     if(!updateduserinfo){
+//         res.sendStatus(404)
+//     }
+//     if(updateduserinfo.newUserName){
+//         updateuser.newUserName=updateduserinfo.newUserName
+//     }
+//     if(updateduserinfo.newEmailId){
+//         updateuser.newEmailId=updateduserinfo.newEmailId
+//     }
+//     if(updateduserinfo.newPhoneNum){
+//         updateuser.newPhoneNum=updateduserinfo.newPhoneNum
+//     }
+//     try{
+//         await userData.getuser(req.params.id)
+//     }
+//     catch(e){
+//         res.status(404).json({error:e})
+//     }
+//     try{
+//         const user=await userData.updateuser(req.params.id,updateuser)
+//         res.status(202).json(user)
+//     }
+//     catch(e){
+//         res.sendStatus(500)
+//     }
+//     return;
+// })
 
 router.get("/passwordchange/:id", async function(req,res){
     try{
@@ -154,11 +158,26 @@ router.get("/userdetails", async function(req,res){
     }
 })
 
+router.get("/userlogin",async function(req,res){
+    
+    res.status(200).render("index")
+})
+
 router.post("/userlogin",async function(req,res){
+    
     const userdetail=req.body
-    if(!userdetail.username || !userdetail.password){
-        res.status(404).json({error:"no username or password entered"})
+    console.log(1)
+    error=[]
+    if(!userdetail.username){
+        error.push("no username entered")
+        res.status(404).render("index",{hasErrors:true,errors:error})
         return;
+    } 
+    if(!userdetail.password){
+        error.push("no passsword entered")
+        res.status(404).render("index",{hasErrors:true,errors:error})
+        return;
+        
     }
     try{
         
@@ -170,7 +189,8 @@ router.post("/userlogin",async function(req,res){
         res.redirect("/item")
     }
     catch(e){
-        res.status(400).json({error:e})
+        error.push(e)
+        res.status(401).render("index",{hasErrors:true,errors:error})
         return;
     }
 })

@@ -6,24 +6,30 @@
     <link rel="stylesheet" href="/public/css/site.css">
 </head>
 <body>
+<header>
     <article class="new-post">
   {{#if isloggedin}}
   <h1> Hi {{ user.username }}</h1>
 <form action="/users/logout" method="GET" class="new-post-form">
         <button type="submit"> Logout </button>
-  </form>
+</form>
 
 <a href="/users/userdetails">My profile</a>
   
 
   {{else}}
 
-
+<h1> Hi Stranger , Why don't you login or Sign up?</h1>
 
   <form action="/users" method="GET" class="new-post-form">
         <button type="submit">Sign Up as a new user?</button>
   </form>
-  <form action="/users/userlogin" method="POST" class="new-post-form">
+
+  <form action="/users/userlogin" method="GET" class="new-post-form">
+      <button type="submit">Login</button>
+  </form>
+
+  {{!-- <form action="/users/userlogin" method="POST" class="new-post-form">
     <label>
       Username:
       <input type="text" name="username" placeholder="" value="{{userinfo.username}}" class="full-width-input"/>
@@ -44,9 +50,10 @@
     </li>
     {{/each}}
   </ul>
-  {{/if}}
+  {{/if}} --}}
 {{/if}}
 </article>
+</header>
 
     {{{ body }}}
 </body>
