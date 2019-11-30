@@ -1,0 +1,58 @@
+<form action = "/bids/search" method="POST" id="aboutForm" class="main-form">
+    <label>
+       <input id="search" name="searchInput" class="search-tf" type="text">
+       <select name="category" >
+            <option value ="electronics">electronics</option>
+            <option value ="stationary">stationary</option>
+            <option value ="tech">tech</option>
+            <option value ="write">write</option>
+        </select>
+    </label> 
+        <button class="search-btn" type="Submit">Search</button>
+</form>
+<link rel="stylesheet" href="/public/css/search.css">
+{{#if errors.length}}
+    {{#each errors}}
+    <p class="error">{{this}}</p>
+    {{/each}}
+{{/if}}
+
+{{^errors}}
+{{#if activeBidList.length}}
+    {{#each activeBidList}}
+    <div class="bidItem">
+    <p>posted by: {{username}}</p>
+    <p id="st">{{starting_time}}</p>
+    <p>{{starting_price}}</p>
+    <p>{{ending_time}}</p>
+    <p>{{category}}</p>
+    <p id="{{_id}}"></p>
+
+    <script>
+        var countDownDate = new Date("{{_id}}").getTime();
+        var x = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+        document.getElementById("{{_id}}").innerHTML = hours + "h "
+        + minutes + "m " + seconds + "s ";
+    
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("{{_id}}").innerHTML = "EXPIRED";
+        }
+        }, 1000);
+    </script>
+
+    </div>
+     {{/each}}
+{{/if}}
+{{^activeBidList}}
+    <main>
+        <p class="not-found">We're sorry, but no results were found for .</p>
+    </main>
+{{/activeBidList}}
+{{/errors}}
