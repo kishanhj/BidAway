@@ -111,6 +111,11 @@ async function updateuser(id, updatedinfo){
         updateduserinfo.phone_num=updatedinfo.newPhoneNum
     }
 
+    if(updatedinfo.newDOB){
+        updateduserinfo.DOB=updatedinfo.newDOB
+    }
+
+
     if(updatedinfo.category){
         updateduserinfo.categoryinterest=updatedinfo.category 
     }

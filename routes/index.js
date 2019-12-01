@@ -3,6 +3,7 @@ const path = require("path");
 const bidRoutes = require("../routes/bids");
 const itemRoutes = require("../routes/items");
 
+
 const constructorMethod = app => {
     app.get("/",(req,res,next)=>{
         if(req.session.isloggedin!==undefined || req.session.isloggedin===true){
@@ -23,5 +24,6 @@ const constructorMethod = app => {
         res.status(404).json({error:"Not Found"});
     });
   };
+    
   
   module.exports = constructorMethod;

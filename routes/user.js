@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require("../data");
 const userData = data.users
 
+
 router.get("/" ,async function(req,res){
     console.log(req.body._method)
     console.log(req)
@@ -60,39 +61,62 @@ router.post("/",async function(req,res){
     }
 })
 
-// router.post("/:id",async function(req,res){
-//     console.log(1)
-//     updateduserinfo=req.body
-//     console.log(req.params)
+router.get("/edituser",async function(req,res){
+    if(req.session.isloggedin===true){
+
+        const userdata=await userData.getuser(req.session.userdata)
+        console.log(req.session)
+        res.render('edituser',{userinfo:userdata,isloggedin:req.session.isloggedin,user:userdata})
+    }
+    else{
+        res.sendStatus(403)
+    }
+})
+
+router.put("/edituser",async function(req,res){
     
-//     updateuser={}
-//     if(!updateduserinfo){
-//         res.sendStatus(404)
-//     }
-//     if(updateduserinfo.newUserName){
-//         updateuser.newUserName=updateduserinfo.newUserName
-//     }
-//     if(updateduserinfo.newEmailId){
-//         updateuser.newEmailId=updateduserinfo.newEmailId
-//     }
-//     if(updateduserinfo.newPhoneNum){
-//         updateuser.newPhoneNum=updateduserinfo.newPhoneNum
-//     }
-//     try{
-//         await userData.getuser(req.params.id)
-//     }
-//     catch(e){
-//         res.status(404).json({error:e})
-//     }
-//     try{
-//         const user=await userData.updateuser(req.params.id,updateuser)
-//         res.status(202).json(user)
-//     }
-//     catch(e){
-//         res.sendStatus(500)
-//     }
-//     return;
-// })
+    updateduserinfo1=req.body
+    console.log(1)
+    console.log(updateduserinfo1)
+  
+    errors=[]
+    const olduserdata= await userData.getuser(req.session.userdata)
+    
+    
+    updateuser={}
+    if(!updateduserinfo1){
+        res.sendStatus(404)
+    }
+    if(updateduserinfo1.username){
+        updateuser.newUserName=updateduserinfo1.username
+    }
+    if(updateduserinfo1.emailid){
+        updateuser.newEmailId=updateduserinfo1.emailid
+    }
+    if(updateduserinfo1.phone_num){
+        updateuser.newPhoneNum=updateduserinfo1.phone_num
+    }
+    if(updateduserinfo1.DOB){
+        updateuser.newDOB=updateduserinfo1.DOB
+    }
+    
+  
+   
+    try{
+        console.log(updateuser)
+        
+        const user=await userData.updateuser(req.session.userdata,updateuser)
+        
+        res.redirect("userdetails")
+    }
+    catch(e){
+        console.log(e)
+        console.log(updateduserinfo1)
+        errors.push(e)
+        res.status(400).render('edituser',{userinfo:updateduserinfo1,isloggedin:req.session.isloggedin,user:olduserdata,errors:errors,hasErrors:true})
+    }
+    return;
+})
 
 router.get("/passwordchange/:id", async function(req,res){
     try{
@@ -101,7 +125,8 @@ router.get("/passwordchange/:id", async function(req,res){
 
     }
     catch(e){
-        res.status(404).json({error:e})
+        error.push(e)
+        res.status(404).json({userinfo:userdata,isloggedin:req.session.isloggedin,user:userdata,errors:e,hasErrors:true})
     }
     
 })
