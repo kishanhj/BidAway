@@ -20,10 +20,14 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/:category", async (req, res) => {
+router.post("/search", async (req, res) => {
     try {
-      const activeBidList = await bidsDataApi.getBidByCategory(req.params.category);
-      res.status(200).json(activeBidList);
+      if(req.body.category) {
+      const activeBidList = await bidsDataApi.getBidByCategory(req.body.category);
+      res.render("searchMain",{activeBidList:activeBidList});
+      } else {
+      res.render("searchMain",{activeBidList:{}});
+      }
     } catch (e) {
       res.sendStatus(500);
     }
