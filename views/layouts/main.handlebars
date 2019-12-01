@@ -15,12 +15,13 @@
 </form>
 
 <a href="/users/userdetails">My profile</a>
+<a href="#">Add an item for Bid</a>
   
 
   {{else}}
 
 <h1> Hi Stranger , Why don't you login or Sign up?</h1>
-
+<div class="btn-group">
   <form action="/users" method="GET" class="new-post-form">
         <button type="submit">Sign Up as a new user?</button>
   </form>
@@ -28,6 +29,7 @@
   <form action="/users/userlogin" method="GET" class="new-post-form">
       <button type="submit">Login</button>
   </form>
+</div>
 
   {{!-- <form action="/users/userlogin" method="POST" class="new-post-form">
     <label>
@@ -53,6 +55,14 @@
   {{/if}} --}}
 {{/if}}
 </article>
+<div class="dropdown">
+  <button class="dropbtn">Categories</button>
+  <div class="dropdown-content">
+    <a href="#">Electronics</a>
+    <a href="#">Automobile</a>
+    <a href="#">Furniture</a>
+  </div>
+</div>
 </header>
 
     {{{ body }}}

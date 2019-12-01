@@ -5,9 +5,13 @@ const userData = data.users
 
 
 router.get("/" ,async function(req,res){
-    console.log(req.body._method)
-    console.log(req)
+    console.log(1)
+    if(req.session.isloggedin!==undefined && req.session.isloggedin==true){
+        res.redirect("/users/userdetails");
+        return;
+    }
     res.status(200).render("newuser",{title:"Create New User"})
+    return;
 
 })
 
@@ -184,8 +188,14 @@ router.get("/userdetails", async function(req,res){
 })
 
 router.get("/userlogin",async function(req,res){
+    if(req.session.isloggedin===true){
+        res.redirect("/item")
+        return;
+        
+    }
     
     res.status(200).render("index")
+    return;
 })
 
 router.post("/userlogin",async function(req,res){
