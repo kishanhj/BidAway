@@ -1,28 +1,26 @@
-function countdowny(){
-    if(daysy == 0 && hoursy == 0 && minutesy == 0 && secondsy == 0){
-      //seconds = 0;
-      timez.innerHTML = "Auction Ended";
-      }
-      else{
-        if(secondsy == 0){
-            secondsy = 59;
-            minutesy--;
-          }else{
-          secondsy--;
-          }
-          if(minutesy == -1){
-          minutesy = 59;
-            hoursy--;
-           }
-           if(hoursy == -1){
-             hoursy = 23;
-             daysy--;
+(function() {
+
+//document.getElementsById()
+
+countdown("5de35c3734ef1a55ec94a3af","Sun Dec 01 2019 03:22:47 GMT-0500")
+
+function countdown(id,et){
+    var countDownDate = new Date(et).getTime();
+    var x = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+        document.getElementById("5de35c3734ef1a55ec94a3af").innerHTML = hours + "h "
+        + minutes + "m " + seconds + "s ";
+    
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("5de35c3734ef1a55ec94a3af").innerHTML = "EXPIRED";
         }
-        if(daysy == -1){
-             daysy = 0;
-        }
-  
-        timez.innerHTML = "<span class=''>"+daysy+"D</span><span class=''> "+hoursy+"H</span><span class=''> "+minutesy+"M</span><span class=''> "+secondsy+"S</span>";
-        setTimeout(countdowny,1000);   
-        }
-    }
+    }, 1000);    
+  }
+    
+  })();

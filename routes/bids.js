@@ -14,8 +14,10 @@ router.get("/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const activeBidList = await bidsDataApi.getAllActiveBids();
-    res.status(200).json(activeBidList);
+    res.render("searchMain",{activeBidList:activeBidList});
   } catch (e) {
+    console.log("Error in bids/ route get(\"/\") method")
+    console.log(e)
     res.status(500).send();
   }
 });
@@ -48,5 +50,29 @@ router.post("/", async (req, res) => {
         res.sendStatus(500);
       }
 });
+
+router.post("/:id",async (req,res) => {
+  try {
+    const bid = await bidsDataApi.updateBidPrice(req.params.id,req.body.price);
+    res.status(200).json(bid);
+  } catch (e) {
+    res.status(500).json();
+  }
+
+});
+
+// router.post("/:id",(req,res,next) => {
+//   var method;
+//   var key = "_method";
+//   req.originalMethod = req.originalMethod || req.method;
+//   if (req.body && typeof req.body === 'object' && key in req.body) {
+//     method = req.body[key].toLowerCase();
+//   }
+//   const suppMethods = ["POST","PUT","GET","PATCH"];
+//   if (suppMethods.indexOf(method)) req.method = method.toUpperCase();
+//   res.redirect("/:id");
+//     next();
+// });
+
 
 module.exports = router;

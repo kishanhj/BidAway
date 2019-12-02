@@ -23,6 +23,7 @@ const addBid = async function addBid(bidInput){
     const newBid = {
         "user_id" : bidInput.user_id,
         "starting_price" : bidInput.starting_price,
+        "current_price":bidInput.starting_price,
         "category" : bidInput.category,
         "starting_time" : new Date(),
         "ending_time":date,
@@ -49,7 +50,6 @@ const getBidByID = async function getBidByID(id) {
 
     if (!id) throw "You must provide an id to search for";
     if(! typeof id in ['string','object']) throw "You must provide a string or objectId";
-
     if(typeof id === "string")
         id = ObjectId(id);
 
@@ -66,25 +66,20 @@ const getBidByID = async function getBidByID(id) {
 
     if (bid === null) throw "No bids with that id";
 
-    const itemDataApi = require("./items")
-    let itemForBid = {};
+    console.log("getbidById res "+bid.ending_time);
 
-    try{
-
-        itemForBid = await itemDataApi.getItemById(bid.item);
-
-    } catch(err) {
-        throw "No author"
-    }
 
     const bidObj = {
         "_id" : bid._id,
         "user_id" : bid.user_id,
         "starting_price": bid.starting_price,
+        "current_price":bid.current_price,
         "starting_time": bid.starting_time,
-        "ending_time": bid.time_period,
-        "item":itemForBid
+        "ending_time": bid.ending_time
+        //"item":itemForBid
     }
+
+    console.log("getbidById ret "+bidObj.ending_time);
 
     return bidObj;
   }
@@ -96,34 +91,7 @@ const getAllBids = async function getAllBids() {
 
     const bidsCollection = await bidsCollectionObj();
     const allbids = await bidsCollection.find({}).toArray();
-
-    const allbidsObj = [];
-    const itemsDataApi = require("./items");
-
-    for(let bid of allbids){
-
-        let itemForBid = {};
-        try{
-            itemForBid = await itemsDataApi.getItemById(bid.item);
-        } catch(err) {
-            throw "No item"
-        }
-
-        const bidObj = {
-            "_id" : bid._id,
-            "user_id" : bid.user_id,
-            "starting_price": bid.starting_price,
-            "starting_time": bid.starting_time,
-            "time_period": bid.time_period,
-            "is_active":bid.is_active,
-            "category":bid.category,
-            "item":itemForBid
-        }
-
-        allbidsObj.push(bidObj);
-    }
-
-    return allbidsObj;
+    return buildBidDisplayData(allbids);
   }
 
   /**
@@ -133,15 +101,22 @@ const getAllActiveBids = async function getAllActiveBids() {
 
     const bidsCollection = await bidsCollectionObj();
     const allbids = await bidsCollection.find({}).toArray();
+    return buildBidDisplayData(allbids);
+  }
 
-    const allbidsObj = [];
+async function buildBidDisplayData(allbids){
+    let allbidsObj = [];
     const itemsDataApi = require("./items");
     const userDataApi = require("./user");
 
     for(let bid of allbids){
 
-        const itemForBid = await itemsDataApi.getItemById(bid.item);
+       // const itemForBid = await itemsDataApi.getItemById(bid.item);
         const user = await userDataApi.getuser(bid.user_id);
+        const now = new Date();
+        const et = new Date(bid.ending_time);
+        if(et < now)
+            continue;
 
         const bidObj = {
             "_id" : bid._id,
@@ -150,14 +125,20 @@ const getAllActiveBids = async function getAllActiveBids() {
             "starting_time": bid.starting_time,
             "ending_time": bid.ending_time,
             "category":bid.category,
-            "item":itemForBid
+            "current_price":bid.current_price,
+            // replace later
+            "show_img":"../public/images/placeholder.png",
+            "item_title":bid.item_id
         }
 
         allbidsObj.push(bidObj);
     }
 
+    
+    allbidsObj.sort((a, b) => {
+        return new Date(a.ending_time) - new Date(b.ending_time) });
     return allbidsObj;
-  }
+}
 
 /**
  * Finds active bids by category
@@ -166,68 +147,55 @@ const getAllActiveBids = async function getAllActiveBids() {
 const getBidByCategory = async function getBidByCategory(categoryInput){
 
     if(!categoryInput || typeof categoryInput !== 'string') throw "You must provide a proper category";
+    
     const bidsCollection = await bidsCollectionObj();
     let allbids = await bidsCollection.find({category:categoryInput}).toArray();
-
-    const allbidsObj = [];
-    const itemsDataApi = require("./items");
-    const userDataApi = require("./user");
-
-    for(let bid of allbids){
-
-        const itemForBid = await itemsDataApi.getItemById(bid.item);
-        const user = await userDataApi.getuser(bid.user_id);
-
-        const bidObj = {
-            "_id" : bid._id,
-            "username" : user.username,
-            "starting_price": bid.starting_price,
-            "starting_time": bid.starting_time,
-            "ending_time": bid.ending_time,
-            "category":bid.category,
-            "item":itemForBid
-        }
-
-        allbidsObj.push(bidObj);
-    }
-
-    return allbidsObj;
+    return buildBidDisplayData(allbids);
   }
 
 
-
-// TODO: Not yet Implemented just copy code
-const updateBid =  async function updateBid(id, title, content) {
+const updateBidPrice =  async function updateBidPrice(id, price) {
+    try {
+        
     if (!id) throw "You must provide an id to search for";
     if(! typeof id in ['string','object']) throw "You must provide a string or objectId";
     if(typeof id === 'string')
         id = ObjectId(id);
+    console.log(price);
+    if(!price || isNaN(price))
+        throw "price is Not a number";
 
-    const postCollection = await bidsCollectionObj();
-    let updatedPost = {};
+    const bidCollection = await bidsCollectionObj();
+    const bid = await getBidByID(id);
+
+    var et = bid.ending_time;
+    var now = new Date();
     
-    if(!title) {
-        updatedPost = { $set:{
-            content: content
-          }};
-    } else if(!content) {
-        updatedPost = { $set:{
-            title: title
-          }};
-    } else {
-        updatedPost = { $set:{
-            title: title,
-            content:content
-          }};
+    if(et.valueOf() - now.valueOf() < 3600000)
+        et.setMinutes(et.getMinutes() + 10); 
+
+    if(!bid) throw "No bid found";
+    if(price < bid.current_price) throw "Invalid price";
+         let updatedPost = { $set:{
+            current_price : price,
+            ending_time : et
+    }};
+
+    await bidCollection.updateOne({ _id: id }, updatedPost);
+
+    const resjson = {
+        "id":id,
+        "price":price,
+        "et":et
     }
-    
 
-    await postCollection.updateOne({ _id: id }, updatedPost);
-
-    return await getBidByID(id);
+    return resjson;
+    } catch (error) {
+        console.log("error in update time" + err);
+    }
 }
 
 
 module.exports = {
-    addBid,getBidByID, getAllBids,updateBid,getBidByCategory,getAllActiveBids
+    addBid,getBidByID, getAllBids,updateBidPrice,getBidByCategory,getAllActiveBids
 }
