@@ -9,7 +9,6 @@ const configRoutes = require("./routes");
 const exphbs = require("express-handlebars");
 const session = require('express-session')
 app.use(methodOverride('_method'))
-const methodOverride = require('method-override')
 var http = require('http').Server(app);
 const io = require('socket.io')(http);
 require("./utils/bidUtils").buildSocketFunctions(io,require("./data/bids"));
