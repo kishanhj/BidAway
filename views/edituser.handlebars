@@ -9,7 +9,7 @@
     {{/each}}
   </ul>
   {{/if}}
-  <form action="/users" method="POST" class="new-post-form">
+  <form action="/users/edituser?_method=put" method="POST" class="new-post-form">
     <label>
       Username:
       <input type="text" name="username" placeholder="username more than six characters" value="{{userinfo.username}}" class="full-width-input"/>
@@ -26,22 +26,9 @@
     </label>
     <br>
     <label>
-      Password:
-      <input type="password" name="password" placeholder="" class="full-width-input"/>
-    </label>
-    <br>
-    <label>
       Date of Birth:
       <input type="date" name="DOB" placeholder="YYYY-MM-DD" value="{{userinfo.DOB}}" class="full-width-input"/>
     </label>
-    <br>
-    <label for="category">
-      Category of Interest:
-       </label>
-      Electronics<input type="checkbox" name="category" id="category" value="Electronics" class="full-width-input" checked/>
-      AutoMobile<input type="checkbox" name="category"  id="category" value="AutoMobile" class="full-width-input"/>
-      Furniture<input type="checkbox" name="category"  id="category" value="Furniture" class="full-width-input"/>
-
     <br>
 
  

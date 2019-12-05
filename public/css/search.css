@@ -1,0 +1,45 @@
+.bidItem {
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 5px;
+    margin-top: 15px;
+    width: 280px;
+    display: inline-block;
+}
+
+.counter-container {
+    text-align: center;
+    margin: 0px;
+    font-weight: bold;
+}
+
+.text_center {
+    text-align: center;
+}
+
+.text_bold {
+    font-weight: bold;
+}
+
+.bid-button {
+    cursor: pointer;
+}
+
+.tf-num {
+    width: 70px;
+}
+
+.imp_fields > input,button {
+    border-radius: 6px;
+    height: 30px;
+}
+
+.bid_img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    height: 180px;
+    padding-top: 10px;
+}

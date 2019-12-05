@@ -3,8 +3,16 @@ const router = express.Router();
 const data = require("../data");
 const userData = data.users
 
+
 router.get("/" ,async function(req,res){
-    res.render("newuser",{title:"Create New User"})
+    console.log(1)
+    if(req.session.isloggedin!==undefined && req.session.isloggedin==true){
+        res.redirect("/users/userdetails");
+        return;
+    }
+    res.status(200).render("newuser",{title:"Create New User"})
+    return;
+
 })
 
 
@@ -57,35 +65,61 @@ router.post("/",async function(req,res){
     }
 })
 
-router.put("/:id",async function(req,res){
-    updateduserinfo=req.body
+router.get("/edituser",async function(req,res){
+    if(req.session.isloggedin===true){
+
+        const userdata=await userData.getuser(req.session.userdata)
+        console.log(req.session)
+        res.render('edituser',{userinfo:userdata,isloggedin:req.session.isloggedin,user:userdata})
+    }
+    else{
+        res.sendStatus(403)
+    }
+})
+
+router.put("/edituser",async function(req,res){
+    
+    updateduserinfo1=req.body
+    console.log(1)
+    console.log(updateduserinfo1)
+  
+    errors=[]
+    const olduserdata= await userData.getuser(req.session.userdata)
+    
     
     updateuser={}
-    if(!updateduserinfo){
+    if(!updateduserinfo1){
         res.sendStatus(404)
     }
-    if(updateduserinfo.newUserName){
-        updateuser.newUserName=updateduserinfo.newUserName
+    if(updateduserinfo1.username){
+        updateuser.newUserName=updateduserinfo1.username
     }
-    if(updateduserinfo.newEmailId){
-        updateuser.newEmailId=updateduserinfo.newEmailId
+    if(updateduserinfo1.emailid){
+        updateuser.newEmailId=updateduserinfo1.emailid
     }
-    if(updateduserinfo.newPhoneNum){
-        updateuser.newPhoneNum=updateduserinfo.newPhoneNum
+    if(updateduserinfo1.phone_num){
+        updateuser.newPhoneNum=updateduserinfo1.phone_num
     }
+    if(updateduserinfo1.DOB){
+        updateuser.newDOB=updateduserinfo1.DOB
+    }
+    
+  
+   
     try{
-        await userData.getuser(req.params.id)
+        console.log(updateuser)
+        
+        const user=await userData.updateuser(req.session.userdata,updateuser)
+        
+        res.redirect("userdetails")
     }
     catch(e){
-        res.status(404).json({error:e})
+        console.log(e)
+        console.log(updateduserinfo1)
+        errors.push(e)
+        res.status(400).render('edituser',{userinfo:updateduserinfo1,isloggedin:req.session.isloggedin,user:olduserdata,errors:errors,hasErrors:true})
     }
-    try{
-        const user=await userData.updateuser(req.params.id,updateuser)
-        res.status(202).json(user)
-    }
-    catch(e){
-        res.sendStatus(500)
-    }
+    return;
 })
 
 router.get("/passwordchange/:id", async function(req,res){
@@ -95,7 +129,8 @@ router.get("/passwordchange/:id", async function(req,res){
 
     }
     catch(e){
-        res.status(404).json({error:e})
+        error.push(e)
+        res.status(404).json({userinfo:userdata,isloggedin:req.session.isloggedin,user:userdata,errors:e,hasErrors:true})
     }
     
 })
@@ -132,28 +167,52 @@ router.put("/:id/passwordchange", async function(req,res){
 
 router.get("/userdetails", async function(req,res){
     try{
-       
-        if(req.session.isloggedin=true || req.session.isloggedin===undefined){
+       console.log(req.session);
+        if(req.session.isloggedin==true){
             const user= await userData.getuser(req.session.userdata)
             
-            res.status(200).render("profile",{user:user})
+            res.status(200).render("profile",{user:user,isloggedin:req.session.isloggedin})
+            return;
 
         }
         else{
-            res.status(403).json({user:"user has not logged in"})
+            res.status(403).redirect("/")
+            return;
         }
         
     }
     catch(e){
         res.sendStatus(500)
+        return;
     }
 })
 
-router.post("/userlogin",async function(req,res){
-    const userdetail=req.body
-    if(!userdetail.username || !userdetail.password){
-        res.status(404).json({error:"no username or password entered"})
+router.get("/userlogin",async function(req,res){
+    if(req.session.isloggedin===true){
+        res.redirect("/item")
         return;
+        
+    }
+    
+    res.status(200).render("index")
+    return;
+})
+
+router.post("/userlogin",async function(req,res){
+    
+    const userdetail=req.body
+    console.log(1)
+    error=[]
+    if(!userdetail.username){
+        error.push("no username entered")
+        res.status(404).render("index",{hasErrors:true,errors:error})
+        return;
+    } 
+    if(!userdetail.password){
+        error.push("no passsword entered")
+        res.status(404).render("index",{hasErrors:true,errors:error})
+        return;
+        
     }
     try{
         
@@ -161,13 +220,28 @@ router.post("/userlogin",async function(req,res){
         console.log(userlogin);
         req.session.userdata=userlogin._id
         req.session.isloggedin=true
-        console.log(req.session)
-        res.redirect("userdetails")
+        const user= await userData.getuser(req.session.userdata)
+        res.redirect("/item")
     }
     catch(e){
-        res.status(400).json({error:e})
+        error.push(e)
+        res.status(401).render("index",{hasErrors:true,errors:error})
         return;
     }
+})
+
+router.get("/logout",async function(req,res){
+    if(req.session.isloggedin===undefined || req.session.isloggedin===false){
+        res.redirect("/item");
+        return;
+      }
+      req.session.isLoggedIn=false
+      req.session.destroy();
+      
+      
+      res.redirect("/item")
+    
+      return;
 })
 
 module.exports=router
