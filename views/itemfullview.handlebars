@@ -1,0 +1,39 @@
+<section class="f-item">
+    <div class="f-item-img">
+        <img src="https://via.placeholder.com/250">
+    </div>
+    <div class="f-item-details">
+        <div class="f-item-name">{{{item.name}}}</div>
+        <div class="f-item-seller">Mr Item User</div>
+        <div class="f-item-bids">
+            <table class="f-item-bids-tbl">
+                <tbody>
+                    {{#each item.bids}}
+                    <tr class="f-item-bid">
+                        <td class="f-bid-price">{{this.price}}</td>
+                        <td class="f-bid-user">{{this.user}}</td>
+                        <td class="f-bid-time">{{this.time}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <div class="f-item-btn-cont">
+            {{#if isloggedin }}
+            <button class="f-item-btn">Bid</button>
+            {{else}}
+            <button class="f-item-btn">Login &amp; Bid</button>
+            {{/if}}
+            </div>
+        </div>
+    </div>
+    <div class="f-item-desc">
+        <div class="f-item-desc-title">Description</div>
+        <div class="f-item-desc-text">
+            {{{item.description}}}
+        </div>
+    </div>
+    <div class="f-item-comm-cont">
+        <div class="f-item-comm-title">Comments</div>
+    </div>
+</section>
+<link rel="stylesheet" href="/public/css/item.css">
