@@ -66,7 +66,28 @@ router.get("/:id", async (req, res) => {
         return;
     }
 
-    res.json(item);
+    item.bids = [{
+        price: "$10",
+        user: "Mr Bidder",
+        time: "1min ago"
+    },{
+        price: "$9",
+        user: "ProBidder6969",
+        time: "2min ago"
+    },{
+        price: "$8",
+        user: "Mr Bidder",
+        time: "2min ago"
+    },{
+        price: "$7",
+        user: "ProBidder6969",
+        time: "2min ago"
+    }];
+
+    res.render('itemfullview', {
+        isloggedin: req.session.isloggedin,
+        item: item,
+    });
 });
 
 router.get("/cat/:cat", async (req, res) => {
