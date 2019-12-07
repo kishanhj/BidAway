@@ -35,5 +35,31 @@
     <div class="f-item-comm-cont">
         <div class="f-item-comm-title">Comments</div>
     </div>
+    <div class="row">
+    <h1>Comments</h1>
+    
+    <div class="col-sm-12 col-md-6" id="todo-area">
+        {{#each item.comments }}
+        <h4>{{ this.userid.username }}</h4>
+         <p> {{ this.comment }}  </p>
+
+        {{/each}}
+
+    </div>
+    
+    
+    <div class="col-sm-12 col-md-4">
+        <form id="new-item-form">
+            <label>Comment: <textarea id="new-task-description"></textarea></label>
+             {{#if isloggedin }}
+            <input type="submit" value="Add Comment" />
+            {{else}}
+            <button class="f-item-btn" disabled> Add comment </button>
+            {{/if}}
+            
+        </form>
+    </div>
+    </div>
 </section>
+
 <link rel="stylesheet" href="/public/css/item.css">

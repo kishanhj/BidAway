@@ -37,7 +37,7 @@ async function createcomment(userid,itemid,comment,ratings){
     if(insertedcomment.insertedCount==0) throw new Error("The comment could not be added")
     const itemadd=await itemcollection.update({_id:ObjectID(itemid)},{$addToSet:{comments:String(newid)}})
     const useradd=await usercollection.update({_id:ObjectID(userid)},{$addToSet:{comments:String(newid)}})
-    return newcomment
+    return await this.getcomment(newid)
 
 
 
@@ -70,9 +70,38 @@ async function getcomment(id){
         throw "Please enter an id"
     }
     const commentcollection=await commentdata();
-    const item= await commentcollection.findOne({_id:ObjectID(id)})
-    if(item===undefined) throw "no item with that id"
-    return item
+    const comment= await commentcollection.findOne({_id:ObjectID(id)})
+    if(comment===undefined) throw "no item with that id"
+    const usercollection=await userdata();
+    const user= await usercollection.findOne({_id:ObjectID(comment.userid)})
+
+
+    comment.userid={userid:user._id,username:user.username}
+    
+    
+    
+    return comment
+
+
+}
+
+
+async function getcommentbyitem(id){
+    if(!id) {
+        throw "Please enter an id"
+    }
+    const itemcollection=await itemdata();
+    const item= await itemcollection.findOne({_id:ObjectID(id)})
+    itemcomments=item.comments
+
+    comments=[]
+  
+    for(let i=0;i<itemcomments.length;i++){
+        comments.push( await this.getcomment(itemcomments[i]))
+
+
+    }
+    return comments
 
 
 }
@@ -98,5 +127,6 @@ module.exports={
     createcomment,
     updatecomment,
     getcomment,
-    deletecomment
+    deletecomment,
+    getcommentbyitem
 }

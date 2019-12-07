@@ -45,6 +45,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const id = req.params.id;
+    req.session.itemid=req.params.id;
     try {
         ObjectID(id);
     } catch (e) {
@@ -54,6 +55,7 @@ router.get("/:id", async (req, res) => {
 
     let item;
     try {
+       
         item = await items.getItemById(id);
     } catch (e) {
         console.error(e);
@@ -83,10 +85,11 @@ router.get("/:id", async (req, res) => {
         user: "ProBidder6969",
         time: "2min ago"
     }];
-
+    
     res.render('itemfullview', {
         isloggedin: req.session.isloggedin,
         item: item,
+        itemid: id
     });
 });
 

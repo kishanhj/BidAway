@@ -1,6 +1,6 @@
 const { items } = require("../database/mongoCollection");
 const mongocollection = require('../database/mongoCollection');
-const commentdata=mongocollection.comments
+const commentdata= require("../data/comments")
 const ObjectID = require('mongodb').ObjectID;
 
 const  ensureValidString = (str, name) => {
@@ -16,15 +16,18 @@ const getAllItems = async () => {
 };
 
 const getItemById = async (id) => {
+    console.log(1)
     id = ObjectID(id);
     comments=[]
 
     const itemsCollection = await items();
     const item = await itemsCollection.findOne({ _id: id });
-    const commentcollection= await commentdata();
+    
     if(item.comments.length>0){
         for(let i=0;i<item.comments.length;i++){
-            let comment =await commentcollection.findOne({_id:ObjectID(item.comments[i]._id)})
+        
+            let comment =await commentdata.getcomment(item.comments[i])
+            
             comments.push({id:comment._id,comment:comment.comment,userid:comment.userid})
         }
     }
