@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const bidsDataApi = require("../data/bids");
+const itemForBidDataApi = require("../data/bids");
+const userData = require("../data/user");
 
 router.get("/:id", async (req, res) => {
   try {
-    const bid = await bidsDataApi.getBidByID(req.params.id);
+    const bid = await itemForBidDataApi.getItemForBidByID(req.params.id);
     res.status(200).json(bid);
   } catch (e) {
     res.status(404).json();
@@ -13,66 +14,84 @@ router.get("/:id", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const activeBidList = await bidsDataApi.getAllActiveBids();
-    res.render("searchMain",{activeBidList:activeBidList});
+    const activeBidList = await itemForBidDataApi.getAllActiveItemsForBid();
+
+    let user={}
+    if(req.session.userdata!==undefined){
+        user= await userData.getuser(req.session.userdata)
+    }
+
+    res.render("searchMain",{
+      activeBidList:activeBidList,
+      user_id:req.session.userdata,
+      isloggedin:req.session.isloggedin,
+      user:user});
+
   } catch (e) {
-    console.log("Error in bids/ route get(\"/\") method")
-    console.log(e)
+    console.log("Error in bids/ route get(\"/\") method");
+    console.log(e);
     res.status(500).send();
   }
 });
 
 router.post("/search", async (req, res) => {
     try {
-      if(req.body.category) {
-      const activeBidList = await bidsDataApi.getBidByCategory(req.body.category);
-      res.render("searchMain",{activeBidList:activeBidList});
-      } else {
-      res.render("searchMain",{activeBidList:{}});
+
+      let user={}
+      if(req.session.userdata!==undefined){
+        user= await userData.getuser(req.session.userdata)
       }
+      
+      const activeBidList = await itemForBidDataApi.getItemsForBidByCategory(req.body);
+
+      res.render("searchMain",{
+        activeBidList:activeBidList,
+        category:req.body.category,
+        user_id:req.session.userdata,
+        isloggedin:req.session.isloggedin,
+        user:user});
+      
     } catch (e) {
+      console.log("Error in bids /search route post(\"/\") method");
+      console.log(e);
       res.sendStatus(500);
     }
   });
 
 router.post("/", async (req, res) => {
 
-    let BidInput = req.body;
+    let ItemInput = req.body;
 
-    if(!BidInput ){
+    if(!ItemInput){
         res.sendStatus(500);
+        return;
     }
 
     try {
-        const newBid = await bidsDataApi.addBid(BidInput);
-        res.status(200).json(newBid);
+        const newItems = await itemForBidDataApi.addItemForBid(ItemInput);
+        res.status(200).json(newItems);
       } catch (e) {
-        res.sendStatus(500);
+        console.log(e);
+        res.sendStatus(500).json(e);
       }
 });
 
 router.post("/:id",async (req,res) => {
   try {
-    const bid = await bidsDataApi.updateBidPrice(req.params.id,req.body.price);
-    res.status(200).json(bid);
+
+    if(!req.body.price || !req.body.user_id){
+      res.sendStatus(400);
+      return;
+    }
+
+    await itemForBidDataApi.addNewBid(req.params.id,req.body.price,req.body.user_id);
+    res.sendStatus(200);
   } catch (e) {
-    res.status(500).json();
+    res.sendStatus(500);
   }
 
 });
 
-// router.post("/:id",(req,res,next) => {
-//   var method;
-//   var key = "_method";
-//   req.originalMethod = req.originalMethod || req.method;
-//   if (req.body && typeof req.body === 'object' && key in req.body) {
-//     method = req.body[key].toLowerCase();
-//   }
-//   const suppMethods = ["POST","PUT","GET","PATCH"];
-//   if (suppMethods.indexOf(method)) req.method = method.toUpperCase();
-//   res.redirect("/:id");
-//     next();
-// });
 
 
 module.exports = router;
