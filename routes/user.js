@@ -182,7 +182,7 @@ router.get("/userdetails", async function(req,res){
 
 router.get("/userlogin",async function(req,res){
     if(req.session.isloggedin===true){
-        res.redirect("/item")
+        res.redirect("/bids")
         return;
         
     }
@@ -214,7 +214,7 @@ router.post("/userlogin",async function(req,res){
         req.session.userdata=userlogin._id
         req.session.isloggedin=true
         const user= await userData.getuser(req.session.userdata)
-        res.redirect("/item")
+        res.redirect("/bids")
     }
     catch(e){
         error.push(e)
@@ -225,14 +225,14 @@ router.post("/userlogin",async function(req,res){
 
 router.get("/logout",async function(req,res){
     if(req.session.isloggedin===undefined || req.session.isloggedin===false){
-        res.redirect("/item");
+        res.redirect("/bids");
         return;
       }
       req.session.isLoggedIn=false
       req.session.destroy();
       
       
-      res.redirect("/item")
+      res.redirect("/bids")
     
       return;
 })
