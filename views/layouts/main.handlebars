@@ -5,32 +5,45 @@
     <title>{{ title }}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
         crossorigin="anonymous">
+         <link rel="stylesheet" href="/public/css/site.css" >
 </head>
 <body>
+  <h1>BidAway!</h1>
 <header>
-    <article class="new-post">
+ 
   {{#if isloggedin}}
-  <h1> Hi {{ user.username }}</h1>
-<form action="/users/logout" method="GET" class="new-post-form">
+  <h2> Hi {{ user.username }}</h2>
+{{!-- <form action="/users/logout" method="GET" class="new-post-form">
         <button type="submit"> Logout </button>
 </form>
 
 <a href="/users/userdetails">My profile</a>
-<a href="#">Add an item for Bid</a>
+<a href="#">Add an item for Bid</a> --}}
+<div class="btn-group">
+  {{!-- <form action="/users/logout" method="GET" class="btn btn-secondary">
+        <button type="submit">Logout</button>
+  </form> --}}
+   <a href="/users/userdetails"><button type="submit" class="btn btn-secondary">My Profile</button></a>
+   <a href="/users/logout"><button type="submit" class="btn btn-secondary">Logout</button></a>
+
+  {{!-- <form action="/users/userdetails" method="GET" class="btn btn-secondary">
+      <button type="submit">My profile</button>
+  </form> --}}
+ 
   
 
   {{else}}
 
-<h1> Hi Stranger , Why don't you login or Sign up?</h1>
+<h2> Hi Stranger , Why don't you login or Sign up?</h2>
 <div class="btn-group">
-  <form action="/users" method="GET" class="new-post-form">
-        <button type="submit">Sign Up as a new user?</button>
-  </form>
+  
+      <a href="/users"><button type="submit" class="btn btn-secondary">Sign Up as a new user?</button></a>
+ 
 
-  <form action="/users/userlogin" method="GET" class="new-post-form">
-      <button type="submit">Login</button>
-  </form>
-</div>
+ 
+      <a href="/users/userlogin"><button type="submit" class="btn btn-secondary">Login</button></a>
+
+
 
   {{!-- <form action="/users/userlogin" method="POST" class="new-post-form">
     <label>
@@ -55,15 +68,18 @@
   </ul>
   {{/if}} --}}
 {{/if}}
-</article>
-<div class="dropdown">
-  <button class="dropbtn">Categories</button>
-  <div class="dropdown-content">
-    <a href="#">Electronics</a>
-    <a href="#">Automobile</a>
-    <a href="#">Furniture</a>
+
+<div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Categories
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+      <a class="dropdown-item" href="#">  Electronics</a><br>
+      <a class="dropdown-item" href="#">  Furniture</a><br>
+      <a class="dropdown-item" href="#">  Automobile</a>
+    </div>
   </div>
-</div>
+  </div>
 </header>
 
     {{{ body }}}
@@ -72,5 +88,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script>
     <script src="/public/js/comment_ajax.js"></script>
+    
 </body>
 </html>

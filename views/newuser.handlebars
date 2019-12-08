@@ -9,7 +9,7 @@
     {{/each}}
   </ul>
   {{/if}}
-  <form action="/users" method="POST" class="new-post-form">
+  {{!-- <form action="/users" method="POST" class="new-post-form">
     <label>
       Username:
       <input type="text" name="username" placeholder="username more than six characters" value="{{userinfo.username}}" class="full-width-input"/>
@@ -38,20 +38,84 @@
     <label for="category">
       Category of Interest:
        </label>
-      Electronics<input type="checkbox" name="category" id="category" value="Electronics" class="full-width-input" checked/>
-      AutoMobile<input type="checkbox" name="category"  id="category" value="AutoMobile" class="full-width-input"/>
-      Furniture<input type="checkbox" name="category"  id="category" value="Furniture" class="full-width-input"/>
+      Electronics<input type="checkbox" name="category" id="category1" value="Electronics" class="full-width-input"/>
+      AutoMobile<input type="checkbox" name="category"  id="category2" value="AutoMobile" class="full-width-input" />
+      Furniture<input type="checkbox" name="category"  id="category3" value="Furniture" class="full-width-input"/>
 
     <br>
 
  
     <button type="submit">Submit</button>
     
-  </form>
+  </form> --}}
+  <form action="/users" method="POST">
+  <div class="form-group">
+    
+      <label for="validationServer01">Username:</label>
+      <input type="text" name="username" placeholder="username more than six characters" value="{{userinfo.username}}" class="form-control is-valid" id="validationServer01" >
+      
+   
+    <br>
+  </div>
+    <div class="form-group">
+    
+      <label for="validationServer02">Phone Number:</label>
+      <input type="number" name="phone_num" placeholder="XXXXXXXXXX" value="{{userinfo.phone_num}}" class="form-control is-valid" id="validationServer02" >
+      
+    
+    </div>
+    
+    <div class="form-group">
+      <label for="validationServer03">Email ID:</label>
+      <input type="text" name="emailid"  placeholder="a****@xxx.com"  value="{{userinfo.emailid}}"  class="form-control is-valid" id="validationServer03">
+      
+    </div>
+   
+    
+  </div>
+  <div class="form-group">
+   
+      <label for="validationServer04">Password:</label>
+      <input  type="password" name="password" placeholder="" class="form-control is-valid" id="validationServer04">
+      
+
+  </div>
+     <div class="form-group">
+      <label for="validationServer05">DOB :</label>
+      <input type="date" name="DOB" placeholder="YYYY-MM-DD" value="{{userinfo.DOB}}" class="form-control is-valid" id="validationServer05">
+      
+    </div>
+    <div class="form-group">
+    <label>  Category of Interest:
+    <div class="form-check">
+  <input class="form-check-input" type="checkbox" name="category" id="category1" value="Electronics" checked>
+  <label class="form-check-label" for="exampleRadios1">
+    Electronics
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" name="category"  id="category2" value="AutoMobile">
+  <label class="form-check-label" for="exampleRadios2">
+    AutoMobile
+  </label>
+</div>
+<div class="form-check disabled">
+  <input class="form-check-input" type="checkbox" name="category"  id="category3" value="Furniture" >
+  <label class="form-check-label" for="exampleRadios3">
+    Furniture
+  </label>
+</div>
+
+</label> 
+  </div>
+ 
+  <button class="btn btn-primary" type="submit">Submit form</button>
+</form>
 
   {{#if hasErrors}}
   <p>{{error}}</p>
   {{/if}}
 </article>
+
 
 
