@@ -98,7 +98,8 @@ html {
   .new-post{
     padding-left: 200px;
   }
-  .form-group{
-    padding-right:600px ;
+  .newuser-form{
+    padding-right:700px ;
+    padding-left: 200px;
 
   }
