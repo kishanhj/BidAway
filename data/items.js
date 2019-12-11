@@ -34,6 +34,12 @@ const getItemById = async (id) => {
     }
    
     item.comments=comments
+    const usercollections= await users();
+    const user = await usercollections.findOne({ _id: ObjectID(item.userid) });
+
+    item.userid={id:user._id,name:user.username}
+
+
     return item;
 };
 

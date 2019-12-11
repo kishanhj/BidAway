@@ -89,11 +89,17 @@ router.get("/:id", async (req, res) => {
         user: "ProBidder6969",
         time: "2min ago"
     }];
+    let user={}
+
+    if(req.session.userdata!==undefined){
+        user= await userData.getuser(req.session.userdata)
+    }
     
     res.render('itemfullview', {
         isloggedin: req.session.isloggedin,
         item: item,
-        itemid: id
+        itemid: id,
+        user:user
     });
 });
 

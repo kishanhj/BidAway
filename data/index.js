@@ -10,7 +10,7 @@ const items= require("./items")
 //         startPrice: 69.69,
 //         startTime: new Date('2019-11-19 11:11')
 //     }
-//         const comment= await items.addItem(item.name,item.category,item.category,item.startPrice,item.startTime,"5dcc84bdfb6508dd6dc49e77")
+//         const comment= await items.getItemById("5df174c90ee74e1e6a622d7a")
 //         console.log(comment)
         
 
