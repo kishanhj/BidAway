@@ -1,0 +1,59 @@
+<article class="new-post">
+  <h1>Make a bid!</h1>
+  {{#if hasErrors}}
+  <ul class="error-list">
+    {{#each errors}}
+    <li>
+      {{this}}
+    </li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <form action="/bids" method="POST" class="new-post-form">
+    <label>
+     User ID
+      <input type="text" name="User_id" placeholder="user_id" value="{{bidInput.user_id}}" class="full-width-input"/>
+    </label>
+    <br>
+    <label>
+      Starting Price
+      <input type="number" name="Category" placeholder="0.00"  value="{{ bidInput.starting_price}}" class="full-width-input"/>
+    </label>
+    <br>
+    <label>
+      Current Price
+      <input type="text" name="Description"  placeholder="0.00"  value="{{bidInput.starting_price}}" class="full-width-input"/>
+    </label>
+    <br>
+    <label>
+      Category
+      <input type="" name="Category"  placeholder="0.00"  value="{{bidInput.category}}" class="full-width-input"/>
+    </label>
+    <br>
+    <label>
+      Starting time
+      <input type="time" name="Starting time" placeholder="00.00" value="{{bidInput.startingtime}}" class="full-width-input"/>
+    </label>
+    <br>
+    <label>
+      Ending time
+      <input type="time" name="Starting time" placeholder="00.00" value="{{bidInput.endingtime}}" class="full-width-input"/>
+    </label>
+    <br>
+    <label>
+      Item Id
+      <input type="number" name="Item id" placeholder="id" value="{{bidInput.item}}" class="full-width-input"/>
+    </label>
+    
+    <br>
+    
+
+ 
+    <button type="submit">Submit</button>
+    
+  </form>
+
+  {{#if hasErrors}}
+  <p>{{error}}</p>
+  {{/if}}
+</article>
