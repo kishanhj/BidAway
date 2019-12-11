@@ -8,27 +8,17 @@
          <link rel="stylesheet" href="/public/css/site.css" >
 </head>
 <body>
-  <h1>BidAway!</h1>
+
 <header>
  
   {{#if isloggedin}}
   <h2> Hi {{ user.username }}</h2>
-{{!-- <form action="/users/logout" method="GET" class="new-post-form">
-        <button type="submit"> Logout </button>
-</form>
 
-<a href="/users/userdetails">My profile</a>
-<a href="#">Add an item for Bid</a> --}}
 <div class="btn-group">
-  {{!-- <form action="/users/logout" method="GET" class="btn btn-secondary">
-        <button type="submit">Logout</button>
-  </form> --}}
+
    <a href="/users/userdetails"><button type="submit" class="btn btn-secondary">My Profile</button></a>
    <a href="/users/logout"><button type="submit" class="btn btn-secondary">Logout</button></a>
 
-  {{!-- <form action="/users/userdetails" method="GET" class="btn btn-secondary">
-      <button type="submit">My profile</button>
-  </form> --}}
  
   
 

@@ -45,7 +45,7 @@ const getItemsByCategory = async (category) => {
     return allItems;
 };
 
-const addItem = async (name, category, description, startPrice, startTime) => {
+const addItem = async (name, category, description, startPrice, startTime,userid) => {
     ensureValidString(name, 'Item Name');
     ensureValidString(category, 'Item Category');
     ensureValidString(description, 'Item Description');
@@ -55,6 +55,8 @@ const addItem = async (name, category, description, startPrice, startTime) => {
 
     if (!startTime instanceof Date)
         throw new Error('Invalid Item Start Item');
+    
+
 
     const itemObj = {
         name,
@@ -66,7 +68,8 @@ const addItem = async (name, category, description, startPrice, startTime) => {
         endTime: null,
         bids: [],
         comments: [],
-        rating: 0
+        rating: 0,
+        userid
     };
 
     const itemsCollection = await items();

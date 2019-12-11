@@ -139,7 +139,7 @@ router.post("/", async (req, res) => {
                                 item.category,
                                 item.description,
                                 startPrice,
-                                startDateTime);
+                                startDateTime,req.session.userdata);
     } catch (e) {}
 
     if (!itemObj) {
