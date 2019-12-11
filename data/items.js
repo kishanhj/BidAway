@@ -1,5 +1,6 @@
 const { items } = require("../database/mongoCollection");
 const mongocollection = require('../database/mongoCollection');
+const users=mongocollection.users;
 const commentdata= require("../data/comments")
 const ObjectID = require('mongodb').ObjectID;
 
@@ -69,17 +70,23 @@ const addItem = async (name, category, description, startPrice, startTime,userid
         bids: [],
         comments: [],
         rating: 0,
-        userid
+        userid:userid
     };
 
     const itemsCollection = await items();
     const insertInfo = await itemsCollection.insertOne(itemObj);
+
+    
+
 
     if (insertInfo.insertedCount === 0)
         throw new Error('Could not create a new Item');
 
     const id = insertInfo.insertedId;
     itemObj._id = id;
+
+    const usercollections= await users();
+    const itemadd=await usercollections.update({_id:ObjectID(userid)},{$addToSet:{items_sold:String(id)}})
 
     return itemObj;
 };
