@@ -1,4 +1,39 @@
-<article class="user">
+<br>
+<br>
+<p><a class="btn btn-primary btn-lg" href="/item" role="button">Go back home </a></p>
+<main role="=main">
+<div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Hello, {{ user.username }} !</h1>
+      <p><a class="btn btn-primary btn-lg" href="/users/edituser" role="button">edit info </a></p>
+     
+    </div>
+</div>
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Email ID</h2>
+        <p>{{ user.emailid}}</p> 
+      </div>
+      <div class="col-md-4">
+        <h2>Mobile Number</h2>
+        <p>{{ user.phone_num}}</p>
+      
+      </div>
+      <div class="col-md-4">
+        <h2>Date of Birth</h2>
+        <p>{{ user.DOB }}</p>
+ 
+      </div>
+    </div>
+
+    <hr>
+
+  </div> 
+</main>
+
+{{!-- <article class="user">
   <h1>{{ user.username }}</h1>
   <h2>Email ID</h2>
   <h3>{{ user.emailid}}</h3>
@@ -28,4 +63,4 @@
   {{/if}}
 
   
-</article>
+</article> --}}

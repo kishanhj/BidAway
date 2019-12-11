@@ -18,6 +18,36 @@ const constructorMethod = app => {
     app.get("/", (req, res) => {
         res.redirect("/item")
     })
+    app.get("/users/userdetails",(req,res,next)=>{
+        
+        if(req.session.isloggedin===undefined || req.session.isloggedin===false){
+           
+            res.redirect("/item");
+        }
+        else{
+            next();
+        }
+    })
+    app.get("/users/edituser",(req,res,next)=>{
+        
+        if(req.session.isloggedin===undefined || req.session.isloggedin===false){
+           
+            res.redirect("/item");
+        }
+        else{
+            next();
+        }
+    })
+
+    app.get("/users/logout",(req,res,next)=>{
+        if(req.session.isloggedin===undefined || req.session.isloggedin===false){
+           
+            res.redirect("/item");
+        }
+        else{
+            next();
+        }
+    })
     app.use("/users", userroutes);
     app.use("/bids" ,bidRoutes);
     app.use("/item", itemRoutes);

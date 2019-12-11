@@ -59,13 +59,13 @@ router.post("/",async function(req,res){
 })
 
 router.get("/edituser",async function(req,res){
-    if(req.session.isloggedin===true){
+    try{
 
         const userdata=await userData.getuser(req.session.userdata)
         console.log(req.session)
         res.render('edituser',{userinfo:userdata,isloggedin:req.session.isloggedin,user:userdata})
     }
-    else{
+    catch{
         res.sendStatus(403)
     }
 })
@@ -160,19 +160,12 @@ router.put("/:id/passwordchange", async function(req,res){
 
 router.get("/userdetails", async function(req,res){
     try{
-       console.log(req.session);
-        if(req.session.isloggedin==true){
+       
             const user= await userData.getuser(req.session.userdata)
             
             res.status(200).render("profile",{user:user,isloggedin:req.session.isloggedin})
             return;
 
-        }
-        else{
-            res.status(403).redirect("/")
-            return;
-        }
-        
     }
     catch(e){
         res.sendStatus(500)
@@ -224,17 +217,14 @@ router.post("/userlogin",async function(req,res){
 })
 
 router.get("/logout",async function(req,res){
-    if(req.session.isloggedin===undefined || req.session.isloggedin===false){
-        res.redirect("/bids");
-        return;
-      }
+   
       req.session.isLoggedIn=false
       req.session.destroy();
       
       
       res.redirect("/bids")
     
-      return;
+      
 })
 
 module.exports=router
