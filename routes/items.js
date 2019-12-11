@@ -43,6 +43,10 @@ router.get("/", async (req, res) => {
     });
 });
 
+router.get('/additem', (req, res) => {
+    res.render("additem");
+});
+
 router.get("/:id", async (req, res) => {
     const id = req.params.id;
     req.session.itemid=req.params.id;
@@ -149,5 +153,7 @@ router.post("/", async (req, res) => {
 
     res.json(itemObj);
 });
+
+
 
 module.exports = router;
