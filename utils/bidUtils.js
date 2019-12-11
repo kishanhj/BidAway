@@ -4,7 +4,7 @@ const buildSocketFunctions = function buildSocketFunctions(io,bidDataApi){
         console.log('A user connected');
 
         socket.on("bidEvent",async function(data) {
-            var resdata = await bidDataApi.updateBidPrice(data.id,data.price);
+            var resdata = await bidDataApi.addNewBid(data.id,data.price,data.user_id);
              console.log(resdata);
             io.sockets.emit('broadcast',resdata);
             console.log("sent");

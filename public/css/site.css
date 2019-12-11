@@ -87,3 +87,19 @@ html {
   .btn-group button:hover {
     background-color: #3e8e41;
   }
+
+  .login-form{
+    height: 250px;
+    width: 50%;
+    
+    
+  }
+
+  .new-post{
+    padding-left: 200px;
+  }
+  .newuser-form{
+    padding-right:700px ;
+    padding-left: 200px;
+
+  }

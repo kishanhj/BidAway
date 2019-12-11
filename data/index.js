@@ -4,7 +4,7 @@ const items= require("./items")
 
 // async function main(){
 //     try{
-//         const comment= await items.removeItem("5dd72b4764cd8f8f3dfa772c")
+//         const comment= await commments.getcommentbyitem("5dd72b4764cd8f8f3dfa772d")
 //         console.log(comment)
         
 
@@ -15,7 +15,7 @@ const items= require("./items")
     
 // }
 
-//main()
+// main()
 
 module.exports={
     users:userdata,

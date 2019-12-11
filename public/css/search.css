@@ -30,6 +30,11 @@
     width: 70px;
 }
 
+.tf {
+    width: 190px;
+    margin-left: 10px;
+}
+
 .imp_fields > input,button {
     border-radius: 6px;
     height: 30px;
@@ -42,4 +47,8 @@
     width: 90%;
     height: 180px;
     padding-top: 10px;
+}
+
+.error {
+    color: red;
 }

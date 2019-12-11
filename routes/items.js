@@ -45,6 +45,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const id = req.params.id;
+    req.session.itemid=req.params.id;
     try {
         ObjectID(id);
     } catch (e) {
@@ -54,6 +55,7 @@ router.get("/:id", async (req, res) => {
 
     let item;
     try {
+       
         item = await items.getItemById(id);
     } catch (e) {
         console.error(e);
@@ -66,7 +68,29 @@ router.get("/:id", async (req, res) => {
         return;
     }
 
-    res.json(item);
+    item.bids = [{
+        price: "$10",
+        user: "Mr Bidder",
+        time: "1min ago"
+    },{
+        price: "$9",
+        user: "ProBidder6969",
+        time: "2min ago"
+    },{
+        price: "$8",
+        user: "Mr Bidder",
+        time: "2min ago"
+    },{
+        price: "$7",
+        user: "ProBidder6969",
+        time: "2min ago"
+    }];
+    
+    res.render('itemfullview', {
+        isloggedin: req.session.isloggedin,
+        item: item,
+        itemid: id
+    });
 });
 
 router.get("/cat/:cat", async (req, res) => {

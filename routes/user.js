@@ -46,21 +46,14 @@ router.post("/",async function(req,res){
     }
     try{
         const newuser= await userData.createuser(userinfo.username,userinfo.emailid,userinfo.password,userinfo.phone_num,userinfo.DOB,userinfo.category)
-        date1= new Date(userinfo.DOB)
         
-        date2= new Date()
-        
-        let age = date2.getFullYear() - date1.getFullYear();
-        
-        if (date2.getMonth() < date1.getMonth() || (date2.getMonth() == date1.getMonth() && date2.getDate() < date1.getDate())) {
-            age=age-1;
-        }
        
-        res.status(200).render('profile',{user: newuser,age:age})
+        res.status(200).render('profile',{user: newuser})
         return;
     }
     catch(e){
-        res.status(400).render('newuser',{title:"Create New User",error:e,hasErrors:true,userinfo:userinfo})
+        error.push(e)
+        res.status(400).render('newuser',{title:"Create New User",errors:error,hasErrors:true,userinfo:userinfo})
         return;
     }
 })
@@ -189,7 +182,7 @@ router.get("/userdetails", async function(req,res){
 
 router.get("/userlogin",async function(req,res){
     if(req.session.isloggedin===true){
-        res.redirect("/item")
+        res.redirect("/bids")
         return;
         
     }
@@ -221,7 +214,7 @@ router.post("/userlogin",async function(req,res){
         req.session.userdata=userlogin._id
         req.session.isloggedin=true
         const user= await userData.getuser(req.session.userdata)
-        res.redirect("/item")
+        res.redirect("/bids")
     }
     catch(e){
         error.push(e)
@@ -232,14 +225,14 @@ router.post("/userlogin",async function(req,res){
 
 router.get("/logout",async function(req,res){
     if(req.session.isloggedin===undefined || req.session.isloggedin===false){
-        res.redirect("/item");
+        res.redirect("/bids");
         return;
       }
       req.session.isLoggedIn=false
       req.session.destroy();
       
       
-      res.redirect("/item")
+      res.redirect("/bids")
     
       return;
 })
