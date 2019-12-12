@@ -124,6 +124,9 @@ router.post("/", async (req, res) => {
     if (!isValidString(item.description))
         err.push('Invalid Item Description');
 
+    if (!isValidString(item.image))
+        err.push('Invalid Item image');
+
     const startDateTime = parseDate(item.startDateTime);
     if (!startDateTime)
         err.push('Invalid Item Start DateTime');
@@ -143,7 +146,10 @@ router.post("/", async (req, res) => {
                                 item.category,
                                 item.description,
                                 startPrice,
-                                startDateTime,req.session.userdata);
+                                startDateTime,
+                                item.image,
+                                req.session.userdata,
+                                );
     } catch (e) {}
 
     if (!itemObj) {
