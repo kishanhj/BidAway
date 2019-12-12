@@ -74,7 +74,7 @@ router.post("/", async (req, res) => {
         res.status(200).json(newItems);
       } catch (e) {
         console.log(e);
-        res.sendStatus(500).json(e);
+        res.sendStatus(500);
       }
 });
 

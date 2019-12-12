@@ -47,7 +47,8 @@ async function createuser(username,emailid,password,phonenum, DOB,category){
         reports:0,
         isactive:true,
         lowerusername:username.toLowerCase(),
-        comments:[]
+        comments:[],
+        ratings:0
 
     }
     const usercollection= await userdata()
@@ -171,6 +172,19 @@ async function verifyuser(UserName, password){
      
 }
 
+const editratings= async(userid, ratings)=>{
+    if(!userid || typeof userid !=="string"){
+        throw "username is not defined properly"
+    }
+    if(ratings===undefined || typeof ratings !=="number"){
+        throw "ratings not defined properly"
+    }
+    const usercollection= await userdata()
+    const user= await usercollection.updateOne({_id:ObjectID(userid)},{$set:{ratings:ratings}})
+    
+
+
+}
 
    
 
@@ -181,5 +195,6 @@ module.exports={
     getuser,
     updateuser,
     changepassword,
-    verifyuser
+    verifyuser,
+    editratings
 }

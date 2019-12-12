@@ -21,6 +21,49 @@
 </div>
 {{/if}}
 
+<script> 
+    const bidCounters = {} ;
+</script>
+ <script src = "/socket.io/socket.io.js"></script>
+ <script>
+        var socket = io();
+        socket.on('broadcast',function(data){
+        const st = "t_"+data.id;
+        const tf = document.getElementById(st);
+        if(tf)
+            tf.value = data.price;
+        if(bidCounters[data.id]){
+           var fu = bidCounters[data.id];
+           fu(new Date(data.et));
+        }
+        var table = document.getElementById('table1');
+        if(table.rows.length > 9)
+        table.deleteRow(9);
+        var new_row = table.insertRow(0);
+        new_row.classList.add("f-item-bid");
+        new_row.insertCell(0).classList.add("f-bid-price");
+        new_row.insertCell(1).classList.add("f-bid-user");
+        new_row.insertCell(2).classList.add("f-bid-time");
+        new_row.cells[0].innerHTML = data.bid.price;
+        new_row.cells[1].innerHTML = data.bid.user;
+        new_row.cells[2].innerHTML = data.bid.time;
+        });
+</script>
+<script>
+    function onBid(id){
+        var socket = io();
+        var pricey = document.getElementById("t_"+id).value;
+        var price = parseFloat(pricey);
+        price += 0.1;
+        price = price.toFixed(2);
+        const bid = {
+            id : id,
+            price : price,
+            user_id : "{{user_id}}"
+        }
+        socket.emit("bidEvent",bid);
+    }
+</script>
 <section class="f-item">
     {{#if isUserAdmin }}
         {{#if item.removed}}
@@ -48,26 +91,62 @@
     <div class="f-item-details">
         <div class="f-item-name">{{{item.name}}}</div>
         <div class="f-item-seller">{{{ item.userid.name }}}</div>
+        <div id="{{itemForBid._id}}"></div>
         <div class="f-item-bids">
-            <table class="f-item-bids-tbl">
+            <table id="table1" class="f-item-bids-tbl">
                 <tbody>
-                    {{#each item.bids}}
+                    {{#each itemForBid.bids}}
                     <tr class="f-item-bid">
-                        <td class="f-bid-price">{{this.price}}</td>
-                        <td class="f-bid-user">{{this.user}}</td>
-                        <td class="f-bid-time">{{this.time}}</td>
+                        <td class="f-bid-price">{{price}}</td>
+                        <td class="f-bid-user">{{user}}</td>
+                        <td class="f-bid-time">{{time}}</td>
                     </tr>
                     {{/each}}
                 </tbody>
             </table>
             <div class="f-item-btn-cont">
+            <input class="tf-num pricetf" style="display: none" value="{{itemForBid.current_price}}" id="t_{{itemForBid._id}}" type="number" disabled>
             {{#if isloggedin }}
-            <button class="f-item-btn">Bid</button>
+            <button id="b_{{itemForBid._id}}" title="Adds 10 cents" class="btn btn-primary f-item-btn" onclick=onBid("{{itemForBid._id}}")>Bid</button>
             {{else}}
-            <button class="f-item-btn">Login &amp; Bid</button>
+            <button id="b_{{itemForBid._id}}" class="btn btn-danger f-item-btn">Login &amp; Start Bidding</button>
             {{/if}}
             </div>
         </div>
+            <script>
+                var countDownDate_{{itemForBid._id}} = new Date("{{itemForBid.ending_time}}").getTime();
+
+                bidCounters["{{itemForBid._id}}"] = function addtime_{{itemForBid._id}}(et){  
+                    countDownDate_{{itemForBid._id}} = et;
+                    document.getElementById("{{itemForBid._id}}").style.backgroundColor = "yellow";
+                    setInterval(function(){
+                        document.getElementById("{{itemForBid._id}}").style.backgroundColor = null;
+                    },1000);
+                };
+                var x_{{itemForBid._id}} = setInterval(function() {
+                var now = new Date().getTime();
+                var distance = countDownDate_{{itemForBid._id}} - now;
+
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                if(hours < 10) hours = "0"+hours;
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                if(minutes < 10) minutes = "0"+minutes;
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                if(seconds < 10) seconds = "0"+seconds;
+    
+                document.getElementById("{{itemForBid._id}}").innerHTML = hours + " : "
+                + minutes + " : " + seconds;
+    
+                if (distance < 0) {
+                clearInterval(x_{{itemForBid._id}});
+                var btn = document.getElementById("b_{{itemForBid._id}}");
+                btn.classList.replace("btn-primary","btn-danger");
+                btn.disabled = true;
+                btn.title = "Expired";
+                document.getElementById("{{itemForBid._id}}").innerHTML = "EXPIRED";
+                }
+                }, 1000); 
+             </script>
     </div>
     <div class="f-item-desc">
         <div class="f-item-desc-title">Description</div>
