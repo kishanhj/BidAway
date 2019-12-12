@@ -53,29 +53,16 @@ const getItemsByCategory = async (category) => {
     return allItems;
 };
 
-const addItem = async (name, category, description, startPrice, startTime,userid) => {
+const addItem = async (name, description, image, userid) => {
     ensureValidString(name, 'Item Name');
-    ensureValidString(category, 'Item Category');
     ensureValidString(description, 'Item Description');
     ensureValidString(userid,"Userid");
 
-    if (typeof startPrice !== 'number' || isNaN(startPrice) || startPrice <= 0)
-        throw new Error('Invalid Item Start Price');
-
-    if (!startTime instanceof Date)
-        throw new Error('Invalid Item Start Item');
-    
-
-
     const itemObj = {
         name,
-        category,
         description,
-        startPrice,
-        startTime,
+        image,
 
-        endTime: null,
-        bids: [],
         comments: [],
         rating: [],
         userid:userid
@@ -89,16 +76,11 @@ const addItem = async (name, category, description, startPrice, startTime,userid
     const itemsCollection = await items();
     const insertInfo = await itemsCollection.insertOne(itemObj);
 
-    
-
-
     if (insertInfo.insertedCount === 0)
         throw new Error('Could not create a new Item');
 
     const id = insertInfo.insertedId;
     itemObj._id = id;
-
-    
     
     const itemadd=await usercollections.update({_id:ObjectID(userid)},{$addToSet:{items_sold:String(id)}})
 
