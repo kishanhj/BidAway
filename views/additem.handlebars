@@ -11,45 +11,78 @@
   {{/if}}
   <form action="/bids" method="POST" class="new-post-form">
     <label>
-     User ID
-      <input type="text" name="User_id" placeholder="user_id" value="{{bidInput.user_id}}" class="full-width-input"/>
-    </label>
-    <br>
-    <label>
-      Starting Price
-      <input type="number" name="Category" placeholder="0.00"  value="{{ bidInput.starting_price}}" class="full-width-input"/>
-    </label>
-    <br>
-    <label>
-      Current Price
-      <input type="text" name="Description"  placeholder="0.00"  value="{{bidInput.starting_price}}" class="full-width-input"/>
-    </label>
-    <br>
-    <label>
-      Category
-      <input type="" name="Category"  placeholder="0.00"  value="{{bidInput.category}}" class="full-width-input"/>
-    </label>
-    <br>
-    <label>
-      Starting time
-      <input type="time" name="Starting time" placeholder="00.00" value="{{bidInput.startingtime}}" class="full-width-input"/>
-    </label>
-    <br>
-    <label>
-      Ending time
-      <input type="time" name="Starting time" placeholder="00.00" value="{{bidInput.endingtime}}" class="full-width-input"/>
+     Item Name
+      <input type="text" name="Item Name" placeholder="item name" value="{{item.name}}" class="full-width-input"/>
     </label>
     <br>
     <label>
       Item Id
-      <input type="number" name="Item id" placeholder="id" value="{{bidInput.item}}" class="full-width-input"/>
+      <input type="number" name="Item id" placeholder="id" value="{{item.itemid}}" class="full-width-input"/>
     </label>
-    
     <br>
+    <label>
+      Upload Item Image 
+      <display name="Upload Item Image " placeholder="" value="{{item.image}}" class="full-width-input"/>
+    </label>
+    <br>
+    <legend>Upload Item Image</legend>
+       <input name="imagefile[]" type="file" id="takePictureField" accept="image/*" onchange="uploadPhotos('//putsreq.com/jX2tGa272jPmLH4KtR2n')" />
+<script type="text/javascript">
+window.uploadPhotos = function(url){
+  var formData = new FormData();
+
+  // HTML file input, chosen by user
+  var fileInputElement = document.getElementById("takePictureField");
+  formData.append("userfile", fileInputElement.files[0]);
+
+  // JavaScript file-like object
+  var content = '<a id="a"><b id="b">hey!</b></a>'; // the body of the new file...
+  var blob = new Blob([content], { type: "text/xml"});
+  formData.append("webmasterfile", blob);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url);
+  xhr.send(formData);
+}
+</script>
+
+<br>
+    <fieldset>
+          <legend>Categories</legend>
+          <p>
+             <label>Select list</label>
+             <select id = "categoryList">
+               <option value = "1">Electronics</option>
+               <option value = "2">Furnitures</option>
+               <option value = "3">Automobiles</option>
+             </select>
+          </p>
+       </fieldset>
+    <br>
+    <label>
+      Description
+      <input type="text" name="Description"  placeholder="Item Description"  value="{{item.description}}" class="full-width-input"/>
+    </label>
+    <br>
+    <label>
+      Start Date & time
+      <input type="time" name="startDatetime"  placeholder=""  value="{{item.startDatetime}}" class="full-width-input"/>
+    </label>
+    <br>
+    <label>
+      Start Price
+      <input type="Price" name="Starting Price" placeholder="00.00" value="{{item.startPrice}}" class="full-width-input"/>
+    </label>
+    <br>
+   
+       <br>
     
 
  
     <button type="submit">Submit</button>
+
+
+ 
     
   </form>
 
