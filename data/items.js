@@ -56,6 +56,7 @@ const addItem = async (name, category, description, startPrice, startTime,userid
     ensureValidString(name, 'Item Name');
     ensureValidString(category, 'Item Category');
     ensureValidString(description, 'Item Description');
+    ensureValidString(userid,"Userid");
 
     if (typeof startPrice !== 'number' || isNaN(startPrice) || startPrice <= 0)
         throw new Error('Invalid Item Start Price');
@@ -92,6 +93,11 @@ const addItem = async (name, category, description, startPrice, startTime,userid
     itemObj._id = id;
 
     const usercollections= await users();
+    const user= await usercollections.findOne({_id:ObjectID(userid)})
+    if(user===null){
+        throw `No user with that id ${userid}`
+    }
+    
     const itemadd=await usercollections.update({_id:ObjectID(userid)},{$addToSet:{items_sold:String(id)}})
 
     return itemObj;

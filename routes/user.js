@@ -2,6 +2,7 @@ const express= require("express")
 const router = express.Router();
 const data = require("../data");
 const userData = data.users
+const itemdata = data.items
 
 
 router.get("/" ,async function(req,res){
@@ -162,6 +163,23 @@ router.get("/userdetails", async function(req,res){
     try{
        
             const user= await userData.getuser(req.session.userdata)
+            items_sold=[]
+            if(user.items_sold.length!=0){
+                for(i=0;i<user.items_sold.length;i++){
+                    let item=await itemdata.getItemById(user.items_sold[i])
+                    items_sold.push({id:item._id,name:item.name})
+                }
+            }
+            user.items_sold=items_sold
+            items_won=[]
+            if(user.items_won.length!=0){
+                for(i=0;i<user.items_won.length;i++){
+                    let item=await itemdata.getItemById(user.items_won[i])
+                    items_won.push({id:item._id,name:item.name})
+                }
+            }
+            user.items_won=items_won
+            console.log(user)
             
             res.status(200).render("profile",{user:user,isloggedin:req.session.isloggedin})
             return;

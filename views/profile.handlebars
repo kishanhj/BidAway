@@ -11,6 +11,7 @@
 </div>
 <div class="container">
     <!-- Example row of columns -->
+
     <div class="row">
       <div class="col-md-4">
         <h2>Email ID</h2>
@@ -31,6 +32,24 @@
     <hr>
 
   </div> 
+  <div class="container">
+    <!-- Example row of columns -->
+    <h1> Items Sold</h1>
+    <div class="row">
+      {{#each user.items_sold}}
+      <div class="col-md-4">
+            <div class="list-group">
+                  <button type="button" class="list-group-item list-group-item-action"><a href="/item/{{this.id}}">{{this.name}}</a></button>
+            </div>
+        
+   
+      </div>
+      {{/each}}
+    </div>
+
+    <hr>
+
+  </div>
 </main>
 
 {{!-- <article class="user">
