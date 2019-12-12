@@ -2,6 +2,7 @@ const express= require("express")
 const router = express.Router();
 const data = require("../data");
 const userData = data.users
+const itemdata = data.items
 
 
 router.get("/" ,async function(req,res){
@@ -59,13 +60,13 @@ router.post("/",async function(req,res){
 })
 
 router.get("/edituser",async function(req,res){
-    if(req.session.isloggedin===true){
+    try{
 
         const userdata=await userData.getuser(req.session.userdata)
         console.log(req.session)
         res.render('edituser',{userinfo:userdata,isloggedin:req.session.isloggedin,user:userdata})
     }
-    else{
+    catch{
         res.sendStatus(403)
     }
 })
@@ -160,19 +161,29 @@ router.put("/:id/passwordchange", async function(req,res){
 
 router.get("/userdetails", async function(req,res){
     try{
-       console.log(req.session);
-        if(req.session.isloggedin==true){
+       
             const user= await userData.getuser(req.session.userdata)
+            items_sold=[]
+            if(user.items_sold.length!=0){
+                for(i=0;i<user.items_sold.length;i++){
+                    let item=await itemdata.getItemById(user.items_sold[i])
+                    items_sold.push({id:item._id,name:item.name})
+                }
+            }
+            user.items_sold=items_sold
+            items_won=[]
+            if(user.items_won.length!=0){
+                for(i=0;i<user.items_won.length;i++){
+                    let item=await itemdata.getItemById(user.items_won[i])
+                    items_won.push({id:item._id,name:item.name})
+                }
+            }
+            user.items_won=items_won
+            console.log(user)
             
             res.status(200).render("profile",{user:user,isloggedin:req.session.isloggedin})
             return;
 
-        }
-        else{
-            res.status(403).redirect("/")
-            return;
-        }
-        
     }
     catch(e){
         res.sendStatus(500)
@@ -224,17 +235,14 @@ router.post("/userlogin",async function(req,res){
 })
 
 router.get("/logout",async function(req,res){
-    if(req.session.isloggedin===undefined || req.session.isloggedin===false){
-        res.redirect("/bids");
-        return;
-      }
+   
       req.session.isLoggedIn=false
       req.session.destroy();
       
       
       res.redirect("/bids")
     
-      return;
+      
 })
 
 module.exports=router

@@ -25,7 +25,8 @@ router.get("/", async (req, res) => {
       activeBidList:activeBidList,
       user_id:req.session.userdata,
       isloggedin:req.session.isloggedin,
-      user:user});
+      user:user,
+      isSearch:false});
 
   } catch (e) {
     console.log("Error in bids/ route get(\"/\") method");
@@ -49,7 +50,8 @@ router.post("/search", async (req, res) => {
         category:req.body.category,
         user_id:req.session.userdata,
         isloggedin:req.session.isloggedin,
-        user:user});
+        user:user,
+        isSearch:true});
       
     } catch (e) {
       console.log("Error in bids /search route post(\"/\") method");

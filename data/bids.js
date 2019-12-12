@@ -12,8 +12,11 @@ const addItemForBid = async function addItemForBid(itemForBid){
     if(!itemForBid.user_id || ! typeof itemForBid.user_id === "string") throw "Invalid User Id";
     if(!itemForBid.starting_price || ! typeof itemForBid.starting_price === "number") throw "Invalid Strating Price";
     if(!itemForBid.category || ! Array.isArray(itemForBid.category) || itemForBid.category.length === 0) throw "Error in category";
-    if(!itemForBid.item) throw "Error in Item"
-    if(! typeof itemForBid.item in ['string','object']) throw "You must provide a string or objectId for item";
+    if(!itemForBid.item_id || !itemForBid.item_title) throw "Error in Item"
+    if(! typeof itemForBid.item_id in ['string','object']) 
+    throw "You must provide a string or objectId for item";
+    if(! typeof itemForBid.item_title === "string") 
+    throw "You must provide a string name for item";
     if(!itemForBid.time_period || ! typeof itemForBid.time_period === "object") throw "Error ending time";
 
     const date = new Date();
@@ -27,7 +30,8 @@ const addItemForBid = async function addItemForBid(itemForBid){
         "category" : itemForBid.category,
         "starting_time" : new Date(),
         "ending_time":date,
-        "item_id":itemForBid.item,
+        "item_id":itemForBid.item_id,
+        "item_title":itemForBid.item_title,
         "bids":[]
 
     }
@@ -104,7 +108,8 @@ async function buildItemForBidDisplayData(allbids,shouldBeActive){
             "current_price":bid.current_price,
             // replace later
             "show_img":"../public/images/placeholder.png",
-            "item_title":bid.item_id
+            "item_title":bid.item_title,
+            "item_id":bid.item_id
         }
 
         allbidsObj.push(bidObj);

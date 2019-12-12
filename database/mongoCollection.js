@@ -20,5 +20,6 @@ module.exports = {
   users: getCollectionFn("users"),
   itemsForBid: getCollectionFn("itemsForBid"),
   items: getCollectionFn("items"),
-  comments: getCollectionFn("comments")
+  comments: getCollectionFn("comments"),
+  ratings:getCollectionFn("ratings")
 };

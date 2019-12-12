@@ -1,14 +1,16 @@
-<form action = "/bids/search" method="POST" id="aboutForm" class="main-form">
-    <label>
-       <input id="searchtf" name="searchInput" class="tf search-tf" type="text">
-       <select id="searchDropDown" name="category" class="dropdown">
-            <option value ="All">All</option>
+<form action = "/bids/search" method="POST" id="aboutForm" class="sf form-inline">
+    <div class="form-group mb-2">
+        <input id="searchtf" name="searchInput" class="form-control" type="text">
+    </div>
+    <div class="form-group mx-sm-3 mb-2">
+        <select id="searchDropDown" name="category" class="form-control browser-default custom-select" searchable="Search here..">
+            <option selected value ="All">Category</option>
             <option value ="Electronics">Electronics</option>
             <option value ="Automobile">Automobile</option>
             <option value ="Furniture">Furniture</option>
         </select>
-    </label> 
-        <button class="search-btn" type="Submit">Search</button>
+    </div>
+    <button class="btn btn-primary mb-2" type="Submit">Search</button>
 </form>
 
 {{#if category}}
@@ -57,9 +59,7 @@ document.getElementById("searchDropDown").value = "{{category}}";
 {{#if activeBidList.length}}
 <div class="searchResult">
     
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     
     
 <script> 
@@ -75,14 +75,14 @@ document.getElementById("searchDropDown").value = "{{category}}";
             <div>posted by: {{username}}</div>
             <img class="bid_img" src="{{show_img}}" 
             alt="../public/images/placeholder.png">
-            <div class="text_center">{{item_title}}</div>
+            <a class="nav-link item_title" href="/item/{{item_id}}">{{item_title}}</a>
         </div>    
         
         <div class="counter-container">
             <div>Start bidding in last 30 Seconds</div>
             <div id="{{_id}}"></div>
             <div class="imp_fields">
-            <input class="tf-num" value="{{current_price}}" id="t_{{_id}}" type="number" disabled>
+            <input class="tf-num pricetf" value="{{current_price}}" id="t_{{_id}}" type="number" disabled>
 
             {{#if ../isloggedin}}
             <button title="Adds 10 cents" class="btn btn-primary bid_button" 
@@ -137,9 +137,12 @@ document.getElementById("searchDropDown").value = "{{category}}";
     {{/each}}
     </div>
 {{/if}}
+
+{{#if isSearch}}
 {{^activeBidList}}
     <main>
-        <p class="not-found">We're sorry, but no results were found for .</p>
+        <p class="not-found error searchResult">We are sorry, but no results were found </p>
     </main>
 {{/activeBidList}}
+{{/if}}
 

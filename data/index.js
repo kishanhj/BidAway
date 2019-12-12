@@ -4,7 +4,13 @@ const items= require("./items")
 
 // async function main(){
 //     try{
-//         const comment= await commments.getcommentbyitem("5dd72b4764cd8f8f3dfa772d")
+//         const item={name: 'Google Home',
+//         description: 'I know what you did last summer',
+//         category: 'Electronics',
+//         startPrice: 69.69,
+//         startTime: new Date('2019-11-19 11:11')
+//     }
+//         const comment= await items.addItem(item.name,item.category,item.description,item.startPrice,item.startTime,"5ddadd6f908cf9c8e226f8c7")
 //         console.log(comment)
         
 
@@ -19,5 +25,6 @@ const items= require("./items")
 
 module.exports={
     users:userdata,
-    comments:commments
+    comments:commments,
+    items:items
 }
