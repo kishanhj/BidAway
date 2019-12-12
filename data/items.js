@@ -2,6 +2,7 @@ const { items } = require("../database/mongoCollection");
 const mongocollection = require('../database/mongoCollection');
 const users=mongocollection.users;
 const commentdata= require("../data/comments")
+const ratingdata = require("../data/ratings")
 const ObjectID = require('mongodb').ObjectID;
 
 const  ensureValidString = (str, name) => {
@@ -17,7 +18,7 @@ const getAllItems = async () => {
 };
 
 const getItemById = async (id) => {
-    console.log(1)
+    
     id = ObjectID(id);
     comments=[]
 
@@ -32,12 +33,12 @@ const getItemById = async (id) => {
             comments.push({id:comment._id,comment:comment.comment,userid:comment.userid})
         }
     }
-   
+
     item.comments=comments
     const usercollections= await users();
     const user = await usercollections.findOne({ _id: ObjectID(item.userid) });
 
-    item.userid={id:user._id,name:user.username}
+    item.userid={id:user._id,name:user.username,ratings:user.ratings}
 
 
     return item;
@@ -76,9 +77,14 @@ const addItem = async (name, category, description, startPrice, startTime,userid
         endTime: null,
         bids: [],
         comments: [],
-        rating: 0,
+        rating: [],
         userid:userid
     };
+    const usercollections= await users();
+    const user= await usercollections.findOne({_id:ObjectID(userid)})
+    if(user===null){
+        throw `No user with that id ${userid}`
+    }
 
     const itemsCollection = await items();
     const insertInfo = await itemsCollection.insertOne(itemObj);
@@ -92,11 +98,7 @@ const addItem = async (name, category, description, startPrice, startTime,userid
     const id = insertInfo.insertedId;
     itemObj._id = id;
 
-    const usercollections= await users();
-    const user= await usercollections.findOne({_id:ObjectID(userid)})
-    if(user===null){
-        throw `No user with that id ${userid}`
-    }
+    
     
     const itemadd=await usercollections.update({_id:ObjectID(userid)},{$addToSet:{items_sold:String(id)}})
 
