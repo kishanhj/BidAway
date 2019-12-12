@@ -95,11 +95,14 @@ router.get("/:id", async (req, res) => {
         user= await userData.getuser(req.session.userdata)
     }
     
+    const isUserAdmin = req.session.isUserAdmin || false;
     res.render('itemfullview', {
         isloggedin: req.session.isloggedin,
         item: item,
         itemid: id,
-        user:user
+        user: user,
+        showItem: (isUserAdmin || !item.removed),
+        isUserAdmin: isUserAdmin
     });
 });
 
@@ -166,6 +169,27 @@ router.post("/", async (req, res) => {
     res.json(itemObj);
 });
 
+router.delete('/:id', async (req, res) => {
+    const id = req.params.id;
 
+    let removedItem;
+    try {
+        removedItem = await items.markItemRemove(id);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
+        return;
+    }
+
+    if (removedItem == null) {
+        res.status(404).json({ success: false, error: 'Item Not Found' });
+        return;
+    }
+
+    res.status(200).json({ success: true,
+        removedItem
+    });
+
+});
 
 module.exports = router;

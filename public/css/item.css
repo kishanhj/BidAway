@@ -77,3 +77,10 @@
     display: inline-block;
 }
 
+.f-item-remove {
+    float: right;
+}
+
+.f-item-removed {
+    text-align: center;
+}

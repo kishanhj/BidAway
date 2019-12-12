@@ -224,6 +224,7 @@ router.post("/userlogin",async function(req,res){
         console.log(userlogin);
         req.session.userdata=userlogin._id
         req.session.isloggedin=true
+        req.session.isUserAdmin = userlogin.isUserAdmin || false;
         const user= await userData.getuser(req.session.userdata)
         res.redirect("/bids")
     }
