@@ -3,6 +3,7 @@ const ObjectID = require('mongodb').ObjectID;
 const router = express.Router();
 const items = require("../data/items");
 const userData = require("../data/user");
+const itemsForBid = require("../data/bids");
 
 const isValidString = (str) => {
     return typeof str === 'string' && str.length > 0;
@@ -27,6 +28,7 @@ router.get("/", async (req, res) => {
             });
         }
     } catch (e) {
+        console.log(e);
         res.status(500).json({ error: 'Internal Server Error' });
         return;
     }
@@ -50,6 +52,7 @@ router.get('/additem', (req, res) => {
 router.get("/:id", async (req, res) => {
     const id = req.params.id;
     req.session.itemid=req.params.id;
+    
     try {
         ObjectID(id);
     } catch (e) {
@@ -71,29 +74,18 @@ router.get("/:id", async (req, res) => {
         res.status(404).json({ error: 'Item Not Found' });
         return;
     }
-
-    item.bids = [{
-        price: "$10",
-        user: "Mr Bidder",
-        time: "1min ago"
-    },{
-        price: "$9",
-        user: "ProBidder6969",
-        time: "2min ago"
-    },{
-        price: "$8",
-        user: "Mr Bidder",
-        time: "2min ago"
-    },{
-        price: "$7",
-        user: "ProBidder6969",
-        time: "2min ago"
-    }];
     let user={}
 
     if(req.session.userdata!==undefined){
         user= await userData.getuser(req.session.userdata)
     }
+
+    const itemForBid = await itemsForBid.getItemForBidByItemID(id);
+    if(!itemForBid){
+        console.log(Invalid);
+    }
+
+    itemForBid.bids = itemForBid.bids.slice(0,10);
     
     const isUserAdmin = req.session.isUserAdmin || false;
     res.render('itemfullview', {
@@ -102,7 +94,9 @@ router.get("/:id", async (req, res) => {
         itemid: id,
         user: user,
         showItem: (isUserAdmin || !item.removed),
-        isUserAdmin: isUserAdmin
+        isUserAdmin: isUserAdmin,
+        user_id:user._id,
+        itemForBid:itemForBid
     });
 });
 

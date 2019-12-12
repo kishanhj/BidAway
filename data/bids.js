@@ -2,6 +2,7 @@
 const mongoCollections = require("../database/mongoCollection");
 const itemForBidCollectionObj = mongoCollections.itemsForBid;
 var ObjectId = require('mongodb').ObjectId; 
+const itemDataApi = require("./items");
 
 /**
  * Adds a bid to the DB
@@ -12,7 +13,7 @@ const addItemForBid = async function addItemForBid(itemForBid){
     if(!itemForBid.user_id || ! typeof itemForBid.user_id === "string") throw "Invalid User Id";
     if(!itemForBid.starting_price || ! typeof itemForBid.starting_price === "number") throw "Invalid Strating Price";
     if(!itemForBid.category || ! Array.isArray(itemForBid.category) || itemForBid.category.length === 0) throw "Error in category";
-    if(!itemForBid.item_id || !itemForBid.item_title) throw "Error in Item"
+    if(!itemForBid.item_title) throw "Error in Item"
     if(! typeof itemForBid.item_id in ['string','object']) 
     throw "You must provide a string or objectId for item";
     if(! typeof itemForBid.item_title === "string") 
@@ -22,15 +23,24 @@ const addItemForBid = async function addItemForBid(itemForBid){
     const date = new Date();
     const time = parseInt(itemForBid.time_period);
     date.setMinutes(date.getMinutes() + time);
+    var item = {};
+    var now = new Date();
+    try{
+      item = await itemDataApi.addItem(itemForBid.item_title,itemForBid.category[0],
+        itemForBid.description,parseInt(itemForBid.starting_price),now,itemForBid.user_id);
+    } catch(err){
+        throw err;
+    }
 
+    console.log(item);
     const newItemForBid = {
         "user_id" : itemForBid.user_id,
         "starting_price" : itemForBid.starting_price,
         "current_price":itemForBid.starting_price,
         "category" : itemForBid.category,
-        "starting_time" : new Date(),
+        "starting_time" : now,
         "ending_time":date,
-        "item_id":itemForBid.item_id,
+        "item_id":item._id,
         "item_title":itemForBid.item_title,
         "bids":[]
 
@@ -63,6 +73,24 @@ const getItemForBidByID = async function getItemForBidByID(id) {
     if (!ItemForBid) throw "No Items with that id";
     return ItemForBid;
   }
+
+/**
+ * This function searches by id and returns a single Bid
+ * 
+ * @param {string} id 
+ */
+const getItemForBidByItemID = async function getItemForBidByItemID(id) {
+
+    if (!id) throw "You must provide an id to search for";
+    if(! typeof id in ['string','object']) throw "You must provide a string or objectId";
+    if(typeof id === "string")
+       id = ObjectId(id);
+
+    const itemForBidCollection = await itemForBidCollectionObj();
+    ItemForBid = await itemForBidCollection.findOne({ item_id: id});
+    if (!ItemForBid) throw "No Items with that id";
+    return ItemForBid;
+  }  
 
 /**
  * This function returns all the bids
@@ -177,15 +205,15 @@ const addNewBid = async function addNewBid(id,price,user_id){
     }
 
     if(price < itemForBid.current_price) throw "Invalid price";
-
+    const bidTime = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`
     const bid = {
         user : user.username,
         price : price,
-        time : now
+        time : bidTime
     }
 
     const bids = itemForBid.bids;
-    bids.push(bid);
+    bids.unshift(bid);
 
     let updatedPost = { $set:{
             current_price : price,
@@ -198,7 +226,8 @@ const addNewBid = async function addNewBid(id,price,user_id){
     const resjson = {
         "id":id,
         "price":price,
-        "et":et
+        "et":et,
+        "bid":bid
     }
 
     return resjson;
@@ -261,5 +290,7 @@ module.exports = {
     updateBidPrice,
     getItemsForBidByCategory,
     getAllActiveItemsForBid,
-    addNewBid
+    addNewBid,
+    getItemForBidByItemID
+
 }

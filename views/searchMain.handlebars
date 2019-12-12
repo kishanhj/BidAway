@@ -83,7 +83,6 @@ document.getElementById("searchDropDown").value = "{{category}}";
             <div id="{{_id}}"></div>
             <div class="imp_fields">
             <input class="tf-num pricetf" value="{{current_price}}" id="t_{{_id}}" type="number" disabled>
-
             {{#if ../isloggedin}}
             <button title="Adds 10 cents" class="btn btn-primary bid_button" 
             id="b_{{_id}}" data-toggle="tooltip" data-placement="bottom" onclick=onBid("{{_id}}")>Bid</button>
@@ -96,8 +95,6 @@ document.getElementById("searchDropDown").value = "{{category}}";
 
             </div>
             <script>
-
-
                 var countDownDate_{{_id}} = new Date("{{ending_time}}").getTime();
 
                 bidCounters["{{_id}}"] = function addtime_{{_id}}(et){  
