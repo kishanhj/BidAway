@@ -78,33 +78,11 @@
     
     <div class="row">
     
-    {{!-- <div class="col-sm-12 col-md-6" id="todo-area">
-        <h1>Comments</h1>
-        {{#each item.comments }}
-        <h4>{{ this.userid.username }}</h4>
-         <p>{{ this.comment }}  </p>
-
-        {{/each}}
-
-    </div> --}}
-    
     <div class="comments-list" id="todo-area">
          <h1 class="comment-header">Comments</h1>
         {{#each item.comments }}
-        <div class="media">
-                    
-                           
-            <div class="media-body">
-                                
-                <h4 class="media-heading user_name">{{ this.userid.username}}</h4>
-                {{ this.comment }}
-                              
-                              
-                </div>
-        </div>
-
+        {{>comment_data isUserAdmin=../isUserAdmin}}
         {{/each}}
-
     </div>
     </div>
     
