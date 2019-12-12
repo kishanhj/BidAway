@@ -103,6 +103,39 @@ const addItem = async (name, category, description, startPrice, startTime,userid
     return itemObj;
 };
 
+const markItemRemove = async (id) => {
+    id = ObjectID(id);
+
+    const toBeDeleted = await getItemById(id)
+
+    if (!toBeDeleted)
+        return null;
+
+    if (toBeDeleted.removed) {
+        return toBeDeleted;
+    }
+
+    const itemsCollection = await items();
+    let updateInfo;
+    try {
+         updateInfo = await itemsCollection.updateOne({
+             _id: id
+         }, {
+             $set: {
+                removed: true
+            }
+        });
+    } catch(e) {
+        console.log(e);
+        throw new Error('Could not mark item removed');
+    }
+
+    if (updateInfo.modifiedCount === 0)
+        throw new Error('Could not mark item removed');
+
+    return toBeDeleted;
+};
+
 const removeItem = async (id) => {
     id = ObjectID(id);
 
@@ -123,8 +156,6 @@ const removeItem = async (id) => {
 
     if (deleteInfo.deletedCount === 0)
         throw new Error('Could not delete item');
-    
-    
 
     return toBeDeleted;
 };
@@ -134,5 +165,6 @@ module.exports = {
     getItemById,
     getItemsByCategory,
     addItem,
-    removeItem
+    removeItem,
+    markItemRemove
 };
