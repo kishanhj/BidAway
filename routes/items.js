@@ -80,8 +80,6 @@ router.get("/:id", async (req, res) => {
         user= await userData.getuser(req.session.userdata)
     }
 
-<<<<<<< HEAD
-=======
     const itemForBid = await itemsForBid.getItemForBidByItemID(id);
     if(!itemForBid){
         console.log(Invalid);
@@ -89,7 +87,6 @@ router.get("/:id", async (req, res) => {
 
     itemForBid.bids = itemForBid.bids.slice(0,10);
     
->>>>>>> af4ca07d7485e4eec5b1a635b720754ab9ebe159
     const isUserAdmin = req.session.isUserAdmin || false;
     res.render('itemfullview', {
         isloggedin: req.session.isloggedin,
