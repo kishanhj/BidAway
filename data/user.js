@@ -77,7 +77,7 @@ async function getuser(id){
     if(!id) throw "No Id is defined"
     const usercollection= await userdata()
     const user= await usercollection.findOne({_id:ObjectID(id)})
-    if(user===null){
+    if(!user){
         throw `No user with that id ${id}`
     }
     
@@ -160,7 +160,7 @@ async function verifyuser(UserName, password){
     }
     const usercollection= await userdata()
     const user= await usercollection.findOne({username:UserName})
-    if(user===null){
+    if(!user){
         throw "Incorrect Username/password entered"
     }
     if(passwordhash.verify(password,user.password)){

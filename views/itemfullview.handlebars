@@ -109,10 +109,11 @@
             {{#if isloggedin }}
             <button id="b_{{itemForBid._id}}" title="Adds 10 cents" class="btn btn-primary f-item-btn" onclick=onBid("{{itemForBid._id}}")>Bid</button>
             {{else}}
-            <button id="b_{{itemForBid._id}}" class="btn btn-danger f-item-btn">Login &amp; Start Bidding</button>
+            <a class="nav-link" href="/users/userlogin"><button id="b_{{itemForBid._id}}" class="btn btn-danger f-item-btn">Login &amp; Start Bidding</button></a>
             {{/if}}
             </div>
         </div>
+        
             <script>
                 var countDownDate_{{itemForBid._id}} = new Date("{{itemForBid.ending_time}}").getTime();
 
@@ -154,8 +155,28 @@
             {{{item.description}}}
         </div>
     </div>
-    
-    <div class="row">
+    <div class="container">
+        <div class="row" id="ratings">
+            
+         <div class="input-group mb-3">
+             
+             <form class="form-inline">
+            <select class="custom-select" id="inputGroupSelect02">
+                 
+                 <option value="1" selected>1</option>
+                 <option value="2">2</option>
+                 <option value="3">3</option>
+                 <option value="4">4</option>
+                 <option value="5">5</option>
+             </select>
+            <div class="input-group-append">
+                 <button class="btn btn-outline-secondary" type="submit">Rate Item</button>
+            </div>
+            </form>
+        </div>
+        
+    </div>
+    <div class="row" id="comments">
     
     <div class="comments-list" id="todo-area">
          <h1 class="comment-header">Comments</h1>
@@ -169,14 +190,17 @@
         <form id="new-item-form">
             <label>Comment: <textarea id="new-task-description"></textarea></label>
              {{#if isloggedin }}
-            <input type="submit" value="Add Comment" />
+            <button class="btn btn-primary" type="submit">Add Comment</button>
             {{else}}
             <button class="f-item-btn" disabled> Add comment </button>
             {{/if}}
             
         </form>
     </div>
+   
     {{/if}}
+     
+    </div>
     
 </section>
 

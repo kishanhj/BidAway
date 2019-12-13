@@ -84,3 +84,8 @@
 .f-item-removed {
     text-align: center;
 }
+
+#ratings{
+   
+    float: right;
+}

@@ -28,5 +28,6 @@ const ratings=require("./ratings")
 module.exports={
     users:userdata,
     comments:commments,
-    items:items
+    items:items,
+    ratings:ratings
 }
