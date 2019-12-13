@@ -9,18 +9,15 @@
 </head>
 <body>
   <header>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <h1>BidAway</h1>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">BidAway</a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       {{#if isloggedin}}
       
     <li class="nav-item active">
-        <a class="nav-link" href="/item">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/bids">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="/item/additem">Add An Item <span class="sr-only">(current)</span></a>
@@ -28,9 +25,9 @@
       
      
       </ul>
-      <a class="nav-link" href="/users/userdetails">{{ user.username }}</a>
+      <a class="nav-link" href="/users/userdetails"> <button type="button" class="btn btn-primary">{{ user.username }}</button></a>
 
-    <a class="nav-link" href="/users/logout">logout</a>
+    <a class="nav-link" href="/users/logout"><button type="button" class="btn btn-primary">Logout</button></a>
   </div>
      
 
@@ -38,17 +35,15 @@
   
 
   {{else}}
-   <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Stranger</a>
-      </li>
+
     <li class="nav-item active">
         <a class="nav-link" href="/bids">Home <span class="sr-only">(current)</span></a>
       </li>
     
       
     </ul>
-    <a class="nav-link" href="/users">Sign Up</a>
-    <a class="nav-link" href="/users/userlogin">Login</a>
+    <a class="nav-link" href="/users"><button type="button" class="btn btn-primary">Sign Up</button></a>
+    <a class="nav-link" href="/users/userlogin"><button type="button" class="btn btn-primary">Login</button></a>
   </div>
      
 
