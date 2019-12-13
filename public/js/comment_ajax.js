@@ -16,6 +16,7 @@ $("#new-item-form").submit(function(event){
       
     
       $.ajax(requestConfig).then(function(response){
+        newDecriptionArea.val('').empty()
         let newitem=$(response);
         newContent.append(newitem)
       })

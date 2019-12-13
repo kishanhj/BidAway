@@ -45,8 +45,13 @@ router.get("/", async (req, res) => {
     });
 });
 
-router.get('/additem', (req, res) => {
-    res.render("additem");
+router.get('/additem', async (req, res) => {
+    let user={}
+    if(req.session.userdata!==undefined){
+        user= await userData.getuser(req.session.userdata)
+    }
+    
+    res.render("additem",{isloggedin: req.session.isloggedin,user:user});
 });
 
 router.get("/:id", async (req, res) => {
