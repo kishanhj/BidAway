@@ -49,7 +49,7 @@ router.post("/",async function(req,res){
         const newuser= await userData.createuser(userinfo.username,userinfo.emailid,userinfo.password,userinfo.phone_num,userinfo.DOB,userinfo.category)
         
        
-        res.status(200).render('profile',{user: newuser})
+        res.status(200).render('Usercreation',{user: newuser})
         return;
     }
     catch(e){
