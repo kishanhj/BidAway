@@ -177,7 +177,11 @@
                  <option value="5">5</option>
              </select>
             <div class="input-group-append">
+                {{#if isloggedin }}
                  <button class="btn btn-outline-secondary" type="submit">Rate Item</button>
+                 {{else}}
+                         <button class="btn btn-outline-secondary" type="submit" disabled>log in to Rate Item</button>
+                  {{/if}}
             </div>
             </form>
         </div>
