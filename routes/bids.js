@@ -14,19 +14,28 @@ router.get("/:id", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const activeBidList = await itemForBidDataApi.getAllActiveItemsForBid();
-
+    var bidList = {};
     let user={}
     if(req.session.userdata!==undefined){
         user= await userData.getuser(req.session.userdata)
     }
+    var category;
+    if(!user || !user.categoryinterest){
+    bidList = await itemForBidDataApi.getAllActiveItemsForBid();
+    category = "All"
+    } else {
+    bidList = await itemForBidDataApi.getItemsForBidByCategory(user.categoryinterest);
+    category = user.categoryinterest;
+    }
+
 
     res.render("searchMain",{
-      activeBidList:activeBidList,
+      activeBidList:bidList,
       user_id:req.session.userdata,
       isloggedin:req.session.isloggedin,
       user:user,
-      isSearch:false});
+      category:category,
+      isMainPage:true});
 
   } catch (e) {
     console.log("Error in bids/ route get(\"/\") method");
@@ -43,7 +52,7 @@ router.post("/search", async (req, res) => {
         user= await userData.getuser(req.session.userdata)
       }
       
-      const activeBidList = await itemForBidDataApi.getItemsForBidByCategory(req.body);
+      const activeBidList = await itemForBidDataApi.getItemsForBidByCategory(req.body.category);
 
       res.render("searchMain",{
         activeBidList:activeBidList,
@@ -51,6 +60,7 @@ router.post("/search", async (req, res) => {
         user_id:req.session.userdata,
         isloggedin:req.session.isloggedin,
         user:user,
+        category:req.body.category,
         isSearch:true});
       
     } catch (e) {

@@ -10,11 +10,9 @@
     <button class="btn btn-primary mb-2" type="Submit">Search</button>
 </form>
 
-{{#if category}}
 <script>
-document.getElementById("searchDropDown").value = "{{category}}";
+    document.getElementById("searchDropDown").value = "{{category}}";
 </script>
-{{/if}}
 
 <link rel="stylesheet" href="/public/css/search.css">
  <script src = "/socket.io/socket.io.js"></script>

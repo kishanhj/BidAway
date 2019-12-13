@@ -112,20 +112,17 @@ async function buildItemForBidDisplayData(allbids,shouldBeActive,remDeletedItems
     const userDataApi = require("./user");
 
     for(let bid of allbids){
-       
+        
+        const now = new Date();
+        const et = new Date(bid.ending_time);
+        if(shouldBeActive && et < now)
+        continue;
+
         const item = await itemsDataApi.getItemById(bid.item_id);
-        if(!item)
+        if(!item || (remDeletedItems && item.removed))
             continue;
 
         const user = await userDataApi.getuser(item.userid.id);
-        const now = new Date();
-        const et = new Date(bid.ending_time);
-
-        if(shouldBeActive && et < now)
-            continue;
-
-        if(remDeletedItems && item.isDeleted)
-            continue;
 
         var img = item.image;
         if(!img)
@@ -159,13 +156,12 @@ async function buildItemForBidDisplayData(allbids,shouldBeActive,remDeletedItems
  * Finds active bids by category
  * @param {string} category 
  */
-const getItemsForBidByCategory = async function getItemsForBidByCategory(body){
-    if(!body || !body.category) throw "Invalid input";
-    const categoryInput = body.category;
+const getItemsForBidByCategory = async function getItemsForBidByCategory(categoryInput){
+    
     if(!categoryInput || typeof categoryInput !== 'string') 
         throw "You must provide a proper category";
     
-    if(categoryInput == "All" && !body.searchInput) 
+    if(categoryInput == "All") 
         return getAllActiveItemsForBid();
     
     const bidsCollection = await itemForBidCollectionObj();
