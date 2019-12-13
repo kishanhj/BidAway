@@ -3,12 +3,12 @@ const path = require("path");
 const bidRoutes = require("../routes/bids");
 const itemRoutes = require("../routes/items");
 const commentRoutes= require("./comments")
+const ratingroutes= require("./ratings")
 
 
 const constructorMethod = app => {
     app.get("/",(req,res,next)=>{
         if(req.session.isloggedin!==undefined || req.session.isloggedin===true){
-            console.log(req.session)
             res.redirect("/bids");
         }
         else{
@@ -53,6 +53,7 @@ const constructorMethod = app => {
     app.use("/bids" ,bidRoutes);
     app.use("/item", itemRoutes);
     app.use("/comments",commentRoutes);
+    app.use("/ratings",ratingroutes);
     app.use("*", (req,res) => {
         res.status(404).json({error:"Not Found"});
     });

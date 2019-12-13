@@ -41,10 +41,14 @@ const getratingsforuser= async(userid)=>{
 
        
      })
-     console.log(typeof userrating)
+     
      await userdata.editratings(String(user._id),userrating)
+
+     return userrating
      
 
     
 }
+
+module.exports=getratingsforuser
 

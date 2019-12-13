@@ -4,6 +4,7 @@ const router = express.Router();
 const items = require("../data/items");
 const userData = require("../data/user");
 const itemsForBid = require("../data/bids");
+const ratings=require("../data/ratings");
 
 const isValidString = (str) => {
     return typeof str === 'string' && str.length > 0;
@@ -66,9 +67,32 @@ router.get("/:id", async (req, res) => {
     }
 
     let item;
+    let ownerrating
+    let userrating=0
+    let userhasrated=false
+    
+    
     try {
        
         item = await items.getItemById(id);
+        ownerrating= await ratings.getratingsforuser(item.userid.id)
+        if(req.session.isloggedin!==undefined && req.session.isloggedin===true){
+            rating_id= await ratings.getratingbyuseranditem(req.session.userdata,id);
+            
+
+            if(rating_id!==undefined){
+                rating= await ratings.getrating(rating_id)
+                userrating=rating.ratings
+                userhasrated=rating.hasrated
+
+            }
+            
+
+        }
+        
+        item.userid.ratings=ownerrating
+
+
     } catch (e) {
         console.error(e);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -82,7 +106,9 @@ router.get("/:id", async (req, res) => {
     let user={}
 
     if(req.session.userdata!==undefined){
+        
         user= await userData.getuser(req.session.userdata)
+       
     }
 
     const itemForBid = await itemsForBid.getItemForBidByItemID(id);
@@ -98,6 +124,8 @@ router.get("/:id", async (req, res) => {
         item: item,
         itemid: id,
         user: user,
+        userrating:userrating,
+        userhasrated:userhasrated,
         showItem: (isUserAdmin || !item.removed),
         isUserAdmin: isUserAdmin,
         user_id:user._id,

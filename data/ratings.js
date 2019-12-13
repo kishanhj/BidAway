@@ -1,9 +1,9 @@
 const mongocollection = require('../database/mongoCollection');
-const commentdata=mongocollection.comments
 const userdata=mongocollection.users
 const itemdata=mongocollection.items
 const ObjectID= require("mongodb").ObjectID
 const ratingsdata=mongocollection.ratings
+const userfunctions= require("./user")
 
 async function createrating(userid,itemid,ratings){
     if(!userid || typeof userid!=="string") throw "No from userid defined"
@@ -29,8 +29,7 @@ async function createrating(userid,itemid,ratings){
     if(!item) throw "No Item with that id"
     if(!user) throw "No user with that id"
     const existratingid =await this.getratingbyuseranditem(userid,itemid)
-    if( existratingid !==0){
-        console.log(existratingid)
+    if( existratingid !==undefined){
         const ratingscollection= await ratingsdata()
         const insertedratings= await ratingscollection.updateOne({_id:ObjectID(existratingid)},{$set:{ratings:parseInt(ratings)}})
         return await this.getrating(existratingid)
@@ -99,14 +98,59 @@ async function getratingbyuseranditem(userid,itemid){
             }
         }
     }
-    return 0
+    
 
     
 
 }
 
+const getratingsforuser= async(userid)=>{
+    if(!userid) throw "No userid defined"
+    const user = await userfunctions.getuser(userid)
+   
+  
+
+    
+  
+
+    const ratingcollection= await ratingsdata()
+
+
+    const averagrating=await ratingcollection.aggregate(
+        [
+          {
+            $group:
+              {
+                _id: "$ownerid",
+              
+                averagerating: { $avg: "$ratings" }
+              }
+          }
+        ]
+        
+     )
+     let userrating=0
+     await averagrating.forEach(function(myDoc) { 
+       
+       if(String(user._id)==myDoc._id){
+         userrating=myDoc.averagerating
+       }
+      
+
+       
+     })
+     
+     await userfunctions.editratings(String(user._id),userrating)
+
+     return userrating
+     
+
+    
+}
+
 module.exports={
     createrating,
     getrating,
-    getratingbyuseranditem
+    getratingbyuseranditem,
+    getratingsforuser
 }
