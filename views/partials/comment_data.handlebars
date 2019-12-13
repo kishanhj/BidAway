@@ -1,15 +1,13 @@
-
-        {{!-- <h4>{{ userid.username }}</h4>
-        <p>{{ comment }}</p> --}}
-        <div class="media">
-                    
-                           
-            <div class="media-body">
-                                
-                <h4 class="media-heading user_name">{{ userid.username}}</h4>
-                {{ comment }}
-                              
-                              
-                </div>
+<div class="media" id="cmt-{{{id}}}">
+    <div class="media-body clearfix">
+        <div class="cmt-heading">
+            <span class="media-heading user_name float-left">{{userid.username}}</span>
+            {{#if isUserAdmin }}
+            <span class="float-right"><a href="#" class="text-danger rm-cmt" data-id="{{{id}}}">delete</a></span>
+            {{/if}}
         </div>
+        <br>
+        {{ comment }}
+    </div>
+</div>
         

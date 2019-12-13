@@ -126,22 +126,11 @@ router.post("/", async (req, res) => {
     if (!isValidString(item.name))
         err.push('Invalid Item Name');
 
-    if (!isValidString(item.category))
-        err.push('Invalid Item Category');
-
     if (!isValidString(item.description))
         err.push('Invalid Item Description');
 
     if (!isValidString(item.image))
         err.push('Invalid Item image');
-
-    const startDateTime = parseDate(item.startDateTime);
-    if (!startDateTime)
-        err.push('Invalid Item Start DateTime');
-
-    const startPrice = item.startPrice | 0;
-    if (startPrice <= 0)
-        err.push('Invalid Item Start Price');
 
     if (err.length !== 0) {
         res.status(400).json({ error: err });
@@ -151,13 +140,9 @@ router.post("/", async (req, res) => {
     let itemObj;
     try {
         itemObj = await items.addItem(item.name,
-                                item.category,
                                 item.description,
-                                startPrice,
-                                startDateTime,
                                 item.image,
-                                req.session.userdata,
-                                );
+                                req.session.userdata);
     } catch (e) {}
 
     if (!itemObj) {

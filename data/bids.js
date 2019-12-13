@@ -41,7 +41,6 @@ const addItemForBid = async function addItemForBid(itemForBid){
         "starting_time" : now,
         "ending_time":date,
         "item_id":item._id,
-        "item_title":itemForBid.item_title,
         "bids":[]
 
     }

@@ -111,11 +111,11 @@ async function deletecomment(id){
         throw "Please enter an id"
     }
 
-    const comment= await getcomment(id)
+    const comment = await getcomment(id)
     const itemcollection= await itemdata()
     const usercollection=await userdata()
     const deleteitem= await itemcollection.update({_id:ObjectID(comment.itemid)},{$pull:{comments:String(comment._id)}})
-    const deleteuser= await usercollection.update({_id:ObjectID(comment.userid)},{$pull:{comments:String(comment._id)}})
+    const deleteuser= await usercollection.update({_id:ObjectID(comment.userid.userid)},{$pull:{comments:String(comment._id)}})
     const commentcollection=await commentdata();
     const item= await commentcollection.removeOne({_id:ObjectID(id)})
     if(item.deletedCount===0) throw "comment could not be deleted"
