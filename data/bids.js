@@ -13,11 +13,6 @@ const addItemForBid = async function addItemForBid(itemForBid){
     if(!itemForBid.user_id || ! typeof itemForBid.user_id === "string") throw "Invalid User Id";
     if(!itemForBid.starting_price || ! typeof itemForBid.starting_price === "number") throw "Invalid Strating Price";
     if(!itemForBid.category || ! Array.isArray(itemForBid.category) || itemForBid.category.length === 0) throw "Error in category";
-    if(!itemForBid.item_title) throw "Error in Item"
-    if(! typeof itemForBid.item_id in ['string','object']) 
-    throw "You must provide a string or objectId for item";
-    if(! typeof itemForBid.item_title === "string") 
-    throw "You must provide a string name for item";
     if(!itemForBid.time_period || ! typeof itemForBid.time_period === "object") throw "Error ending time";
 
     const date = new Date();
@@ -25,16 +20,16 @@ const addItemForBid = async function addItemForBid(itemForBid){
     date.setMinutes(date.getMinutes() + time);
     var item = {};
     var now = new Date();
+
     try{
-      item = await itemDataApi.addItem(itemForBid.item_title,itemForBid.category[0],
-        itemForBid.description,parseInt(itemForBid.starting_price),now,itemForBid.user_id);
+      item = await itemDataApi.addItem(itemForBid.item_title,
+        itemForBid.description,itemForBid.image,itemForBid.user_id);
     } catch(err){
         throw err;
     }
 
     console.log(item);
     const newItemForBid = {
-        "user_id" : itemForBid.user_id,
         "starting_price" : itemForBid.starting_price,
         "current_price":itemForBid.starting_price,
         "category" : itemForBid.category,
@@ -98,7 +93,7 @@ const getAllItemsForBid = async function getAllItemsForBid() {
 
     const bidsCollection = await itemForBidCollectionObj();
     const allbids = await bidsCollection.find({}).toArray();
-    return buildItemForBidDisplayData(allbids,false);
+    return buildItemForBidDisplayData(allbids,false,false);
   }
 
   /**
@@ -108,22 +103,35 @@ const getAllActiveItemsForBid = async function getAllActiveItemsForBid() {
 
     const bidsCollection = await itemForBidCollectionObj();
     const allbids = await bidsCollection.find({}).toArray();
-    return buildItemForBidDisplayData(allbids,true);
+    return buildItemForBidDisplayData(allbids,true,false);
   }
 
-async function buildItemForBidDisplayData(allbids,shouldBeActive){
+async function buildItemForBidDisplayData(allbids,shouldBeActive,remDeletedItems){
     let allbidsObj = [];
     const itemsDataApi = require("./items");
     const userDataApi = require("./user");
 
     for(let bid of allbids){
+       
+        const item = await itemsDataApi.getItemById(bid.item_id);
+        if(!item)
+            continue;
 
-       // const itemForBid = await itemsDataApi.getItemById(bid.item);
-        const user = await userDataApi.getuser(bid.user_id);
+        const user = await userDataApi.getuser(item.userid.id);
         const now = new Date();
         const et = new Date(bid.ending_time);
+
         if(shouldBeActive && et < now)
             continue;
+
+        if(remDeletedItems && item.isDeleted)
+            continue;
+
+        var img = item.image;
+        if(!img)
+            img = "../public/images/placeholder.png";
+                        
+            
 
         const bidObj = {
             "_id" : bid._id,
@@ -133,9 +141,8 @@ async function buildItemForBidDisplayData(allbids,shouldBeActive){
             "ending_time": bid.ending_time,
             "category":bid.category,
             "current_price":bid.current_price,
-            // replace later
-            "show_img":"../public/images/placeholder.png",
-            "item_title":bid.item_title,
+            "show_img":img,
+            "item_title":item.name,
             "item_id":bid.item_id
         }
 
@@ -155,7 +162,6 @@ async function buildItemForBidDisplayData(allbids,shouldBeActive){
 const getItemsForBidByCategory = async function getItemsForBidByCategory(body){
     if(!body || !body.category) throw "Invalid input";
     const categoryInput = body.category;
-    const textInput = body.searchInput;
     if(!categoryInput || typeof categoryInput !== 'string') 
         throw "You must provide a proper category";
     
@@ -165,7 +171,7 @@ const getItemsForBidByCategory = async function getItemsForBidByCategory(body){
     const bidsCollection = await itemForBidCollectionObj();
     let allbids = await bidsCollection.find({category:categoryInput}).toArray();
 
-    return buildItemForBidDisplayData(allbids,true);
+    return buildItemForBidDisplayData(allbids,true,false);
   }
 
 
