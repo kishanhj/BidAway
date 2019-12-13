@@ -30,7 +30,11 @@
         });
 </script>
 <script>
-    function onBid(id){
+    function onBid(id,bidUserId){
+        if("{{user_id}}" === bidUserId){
+            alert("Cannot bid on item you posted");
+            return;
+        }
         var socket = io();
         var pricey = document.getElementById("t_"+id).value;
         var price = parseFloat(pricey);
@@ -80,7 +84,7 @@
             <input class="tf-num pricetf" value="{{current_price}}" id="t_{{_id}}" type="number" disabled>
             {{#if ../isloggedin}}
             <button title="Adds 10 cents" class="btn btn-primary bid_button" 
-            id="b_{{_id}}" data-toggle="tooltip" data-placement="bottom" onclick=onBid("{{_id}}")>Bid</button>
+            id="b_{{_id}}" data-toggle="tooltip" data-placement="bottom" onclick=onBid("{{_id}}","{{user_id}}")>Bid</button>
             {{else}}
             <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="bottom" title="Login to Start Bidding">
             <button style="pointer-events: none;" class="btn btn-danger bid_button" 

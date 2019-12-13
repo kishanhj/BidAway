@@ -133,6 +133,7 @@ async function buildItemForBidDisplayData(allbids,shouldBeActive,remDeletedItems
         const bidObj = {
             "_id" : bid._id,
             "username" : user.username,
+            "user_id":user._id,
             "starting_price": bid.starting_price,
             "starting_time": bid.starting_time,
             "ending_time": bid.ending_time,
