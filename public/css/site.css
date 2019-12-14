@@ -120,4 +120,8 @@ html {
   border-bottom: 2.5px solid black;
 }
 
+.btn{
+  font-size: medium;
+  margin: 5px;
+}
 

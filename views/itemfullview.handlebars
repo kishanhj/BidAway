@@ -90,8 +90,8 @@
     </div>
     <div class="f-item-details">
         <div class="f-item-name">{{{item.name}}}</div>
-        <div class="f-item-seller">{{{ item.userid.name }}}</div>
-        <div class="f-item-seller">{{{ item.userid.ratings }}}</div>
+        <div class="f-item-seller">User :{{{ item.userid.name }}}</div>
+        <div class="f-item-seller">Rating : {{{ item.userid.ratings }}}</div>
         <div id="{{itemForBid._id}}"></div>
         <div class="f-item-bids">
             <table id="table1" class="f-item-bids-tbl">
@@ -170,8 +170,8 @@
              <form class="form-inline"   id="new-ratings">
             <select class="custom-select" name="itemratings" id="ratinginputGroupSelect">
                  
-                 <option value="1" selected>1</option>
-                 <option value="2">2</option>
+                 <option value="1" >1</option>
+                 <option value="2" >2</option>
                  <option value="3">3</option>
                  <option value="4">4</option>
                  <option value="5">5</option>
@@ -185,6 +185,9 @@
             </div>
             </form>
         </div>
+        <script>
+            document.getElementById("ratinginputGroupSelect").value = "{{userrating}}";
+        </script>
         
     </div>
     <div class="row" id="comments">

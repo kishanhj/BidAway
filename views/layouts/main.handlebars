@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
     <meta charset="utf-8">
-    <title>{{ title }}</title>
+    <title>BidAway</title>
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
          <link rel="stylesheet" href="/public/css/site.css" >
      <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/jumbotron/">
@@ -10,7 +10,7 @@
 <body>
   <header>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">BidAway</a>
+  <a class="navbar-brand" href="/bids">BidAway</a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
@@ -25,9 +25,9 @@
       
      
       </ul>
-      <a class="nav-link" href="/users/userdetails"> <button type="button" class="btn btn-primary">{{ user.username }}</button></a>
+      <a class="btn btn-primary btn-sm" href="/users/userdetails" role="button">{{ user.username }}</a>
 
-    <a class="nav-link" href="/users/logout"><button type="button" class="btn btn-primary">Logout</button></a>
+    <a class="btn btn-primary btn-sm" href="/users/logout" role="button">Logout</a>
   </div>
      
 

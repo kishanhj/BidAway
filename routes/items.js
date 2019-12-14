@@ -95,7 +95,7 @@ router.get("/:id", async (req, res) => {
 
     } catch (e) {
         console.error(e);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(404).json({ error: 'Page not Found' });
         return;
     }
 
