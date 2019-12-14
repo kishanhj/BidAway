@@ -72,6 +72,7 @@ router.get("/:id", async (req, res) => {
        
         item = await items.getItemById(id);
         ownerrating= await ratings.getratingsforuser(item.userid.id)
+
         if(req.session.isloggedin!==undefined && req.session.isloggedin===true){
             rating_id= await ratings.getratingbyuseranditem(req.session.userdata,id);
             
@@ -80,11 +81,15 @@ router.get("/:id", async (req, res) => {
                 rating= await ratings.getrating(rating_id)
                 userrating=rating.ratings
                 userhasrated=rating.hasrated
+               
 
             }
             
 
         }
+        userrating=userrating+""
+        userrating=userrating.substring(0,userrating.indexOf('.')+2)
+        console.log(userrating)
         
         item.userid.ratings=ownerrating
 
