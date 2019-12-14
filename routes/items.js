@@ -153,6 +153,10 @@ router.get('/edititem/:id',async(req,res)=>{
 })
 
 router.put('/edititem/:id',async (req,res)=>{
+    if(req.session.isloggedin===undefined || req.session.isloggedin===false){
+           
+        res.redirect("/bids");
+    }
     let id=req.params.id
     let errors=[]
     const item= await items.getItemById(id)
