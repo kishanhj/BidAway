@@ -22,7 +22,7 @@ const constructorMethod = app => {
         
         if(req.session.isloggedin===undefined || req.session.isloggedin===false){
            
-            res.redirect("/item");
+            res.redirect("/bids");
         }
         else{
             next();
@@ -32,7 +32,7 @@ const constructorMethod = app => {
         
         if(req.session.isloggedin===undefined || req.session.isloggedin===false){
            
-            res.redirect("/item");
+            res.redirect("/bids");
         }
         else{
             next();
@@ -42,11 +42,32 @@ const constructorMethod = app => {
     app.get("/users/logout",(req,res,next)=>{
         if(req.session.isloggedin===undefined || req.session.isloggedin===false){
            
-            res.redirect("/item");
+            res.redirect("/bids");
         }
         else{
             next();
         }
+    })
+
+    app.get("/item/additem",(req,res,next)=>{
+        if(req.session.isloggedin===undefined || req.session.isloggedin===false){
+           
+            res.redirect("/bids");
+        }
+        else{
+            next();
+        }
+
+    })
+    app.post("/bids",(req,res,next)=>{
+        if(req.session.isloggedin===undefined || req.session.isloggedin===false){
+           
+            res.redirect("/bids");
+        }
+        else{
+            next();
+        }
+
     })
 
     app.use("/users", userroutes);

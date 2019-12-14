@@ -38,12 +38,8 @@ router.get("/", async (req, res) => {
         user= await userData.getuser(req.session.userdata)
     }
     console.log(req.session);
-    res.render('browse', {
-        categories,
-        items: allItems,
-        isloggedin:req.session.isloggedin,
-        user:user
-    });
+    res.redirect("/bids")
+    return;
 });
 
 router.get('/additem', async (req, res) => {
