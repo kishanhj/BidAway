@@ -10,7 +10,7 @@
     {{/each}}
  
   {{/if}}
-  <form action="/bids" method="POST" class="new-post-form">
+  <form action="/bids" method="POST" class="new-post-form" enctype="multipart/form-data">
     <label>
      Item Name
       <input type="text" name="item_title" placeholder="item name" value="{{itemForBid.item_title}}" class="full-width-input"/>
@@ -19,7 +19,8 @@
     
     <br>
     <legend>Upload Item Image</legend>
-       <input name="imagefile[]" type="file" id="takePictureField" accept="image/*" onchange="uploadPhotos('//putsreq.com/jX2tGa272jPmLH4KtR2n')" />
+       <input name="itemImage" type="file" id="takePictureField" accept="image/*" />
+       <!--
 <script type="text/javascript">
 window.uploadPhotos = function(url){
   var formData = new FormData();
@@ -38,6 +39,7 @@ window.uploadPhotos = function(url){
   xhr.send(formData);
 }
 </script>
+-->
 
 <br>
     <fieldset>

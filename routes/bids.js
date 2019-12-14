@@ -1,4 +1,5 @@
 const express = require("express");
+const uuidv1 = require('uuid/v1');
 const router = express.Router();
 const itemForBidDataApi = require("../data/bids");
 const userData = require("../data/user");
@@ -81,6 +82,10 @@ router.post("/", async (req, res) => {
 
     ItemInput = req.body;
     console.log(ItemInput)
+
+    if (!req.files || Object.keys(req.files).length === 0 || !req.files.itemImage) {
+      errors.push("No image was uploaded")
+    }
     
     if(ItemInput.item_title===''){
       errors.push("No Item name mentioned")
@@ -99,11 +104,22 @@ router.post("/", async (req, res) => {
     if(ItemInput.category===''){
       errors.push("No Item Category period mentioned")
     }
+
+        const itemImage = req.files.itemImage;
+        const indexOfDot = itemImage.name.lastIndexOf('.');
+        if (indexOfDot === -1) {
+            error.push('Invalid image filename');
+        }
     
       if(errors.length>0){
         throw "item input incomplete"
       }
-      
+
+        const itemImageExt = itemImage.name.substring(indexOfDot + 1);
+        const imageFilename = uuidv1() + '.' + itemImageExt;
+        console.log(imageFilename);
+        ItemInput.image = 'public/images/' + imageFilename; 
+
         ItemInput.starting_price=parseFloat(ItemInput.starting_price)
      
         ItemInput.user_id=req.session.userdata;
@@ -112,9 +128,16 @@ router.post("/", async (req, res) => {
         catArr.push(ItemInput.category);
         ItemInput.category = catArr;
         const newItems = await itemForBidDataApi.addItemForBid(ItemInput);
+        
+        itemImage.mv(ItemInput.image, function (err) {
+            if (err) {
+                console.log('Failed to upload image: ', err);
+            }
+        });
+
         res.redirect("/item/"+newItems.item_id);
       } catch (e) {
-        
+          console.log('Bad Req: ' + e);
         res.status(400).render("additem",{hasErrors:true,errors:errors,itemForBid:ItemInput,isloggedin: req.session.isloggedin,user:user})
       }
 });
