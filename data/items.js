@@ -101,6 +101,7 @@ const markItemRemove = async (id) => {
     }
 
     const itemsCollection = await items();
+    const itemsforbidcollection=await itemsforbid();
     let updateInfo;
     try {
          updateInfo = await itemsCollection.updateOne({
@@ -110,6 +111,12 @@ const markItemRemove = async (id) => {
                 removed: true
             }
         });
+        
+    const deletediteminfo= await itemsforbidcollection.updateOne({item_id:id}, {
+        $set: {
+           removed: true
+       }
+   });
     } catch(e) {
         console.log(e);
         throw new Error('Could not mark item removed');
@@ -138,8 +145,7 @@ const removeItem = async (id) => {
     const usercollections=await users()
     const deleteitem= await usercollections.update({_id:ObjectID(toBeDeleted.userid.id)},{$pull:{items_sold:String(toBeDeleted._id)}})
 
-    const itemsforbidcollection=await itemsforbid();
-    const deletediteminfo= itemsforbidcollection.deleteOne({item_id:id})
+    
 
     const itemsCollection = await items();
     const deleteInfo = itemsCollection.deleteOne({ _id: id });

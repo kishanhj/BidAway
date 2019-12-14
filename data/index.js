@@ -9,7 +9,7 @@ const bids=require("./bids")
       
         
        
-//         const comment= await items.removeItem("5df52538c7eeca17aa0e9054")
+//         const comment= await items.markItemRemove("5df52683b3d8211804971da3")
        
 //        console.log(comment)
         
