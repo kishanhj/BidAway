@@ -38,6 +38,7 @@ const addItemForBid = async function addItemForBid(itemForBid){
         "starting_time" : now,
         "ending_time":date,
         "item_id":item._id,
+        "winner": null,
         "bids":[]
 
     }
@@ -211,6 +212,7 @@ const addNewBid = async function addNewBid(id,price,user_id){
     if(price < itemForBid.current_price) throw "Invalid price";
     const bidTime = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`
     const bid = {
+        user_id: user_id,
         user : user.username,
         price : price,
         time : bidTime
@@ -239,6 +241,36 @@ const addNewBid = async function addNewBid(id,price,user_id){
 
     } catch (error) {
         throw error;
+    }
+}
+
+const bidWinnerUpdate = async function updateWinners(){
+    
+    const bidsCollection = await itemForBidCollectionObj();
+    let allbids = await bidsCollection.find({winner:null}).toArray();
+    const userDataApi = require("./user");
+    for(let bid of allbids){
+        const now = new Date();
+        const et = new Date(bid.ending_time);
+        if(et > now)
+        continue;
+
+        const bidArray = bid.bids;
+        const winningBid = bidArray[0];
+        var updatedPost ={
+            $set:{winner:"no winner"}
+        };
+
+        if(!winningBid){
+            bidsCollection.updateOne({ _id: bid._id }, updatedPost);
+        } else {
+            updatedPost = {
+                $set:{winner:winningBid.user_id}
+            }
+            bidsCollection.updateOne({ _id: bid._id },updatedPost);
+            userDataApi.additem_winner(winningBid.user_id,bid.item_id);
+        }
+
     }
 }
 
@@ -295,6 +327,7 @@ module.exports = {
     getItemsForBidByCategory,
     getAllActiveItemsForBid,
     addNewBid,
+    bidWinnerUpdate,
     getItemForBidByItemID
 
 }

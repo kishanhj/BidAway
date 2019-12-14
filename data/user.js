@@ -187,14 +187,14 @@ const editratings= async(userid, ratings)=>{
 }
 
 const additem_winner=async(userid,itemid)=>{
-    if(!userid || typeof userid !=="string"){
+    if(!userid || typeof userid !=="object"){
         throw "username is not defined properly"
     }
-    if(itemid===undefined || typeof itemid !=="string"){
+    if(itemid===undefined || typeof itemid !=="object"){
         throw "ratings not defined properly"
     }
     const usercollection= await userdata()
-    const user= await usercollection.updateOne({_id:ObjectID(userid)},{$addToSet:{items_won:itemid}})
+    const user= await usercollection.updateOne({_id:userid},{$addToSet:{items_won:itemid}})
     return;
 
 }

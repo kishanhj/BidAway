@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const expstatic = express.static(__dirname + "/public");
 const methodOverride = require('method-override');
-
+const bidUtils = require("./utils/bidUtils");
 
 const configRoutes = require("./routes");
 const exphbs = require("express-handlebars");
@@ -38,3 +38,7 @@ http.listen(3000, () => {
   console.log("We've now got a server!");
   console.log("Your routes will be running on http://localhost:3000");
 });
+
+bidUtils.startInterval();
+
+

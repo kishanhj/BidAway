@@ -13,6 +13,13 @@ const buildSocketFunctions = function buildSocketFunctions(io,bidDataApi){
       });
 }
 
+const startInterval = function startInterval(){
+  const bidDataApi = require("../data/bids");
+  setInterval(() => {
+    bidDataApi.bidWinnerUpdate();
+  }, 5000);
+}
 
 
-module.exports = { buildSocketFunctions};
+
+module.exports = { buildSocketFunctions,startInterval};
