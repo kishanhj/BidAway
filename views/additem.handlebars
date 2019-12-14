@@ -1,18 +1,19 @@
 <article class="new-post">
-  <h1>Make a bid!</h1>
+  <h1>Make a Item!</h1>
   {{#if hasErrors}}
-  <ul class="error-list">
+  
     {{#each errors}}
-    <li>
-      {{this}}
-    </li>
+    <div class="alert alert-danger" role="alert">
+ {{this}}
+</div>
+    
     {{/each}}
-  </ul>
+ 
   {{/if}}
   <form action="/bids" method="POST" class="new-post-form">
     <label>
      Item Name
-      <input type="text" name="item_title" placeholder="item name" value="{{itemForBid.name}}" class="full-width-input"/>
+      <input type="text" name="item_title" placeholder="item name" value="{{itemForBid.item_title}}" class="full-width-input"/>
     </label>
     
     
@@ -43,13 +44,16 @@ window.uploadPhotos = function(url){
           <legend>Categories</legend>
           <p>
              <label>Select list</label>
-             <select id = "category" name="category">
+             <select id = "category-of-interest" name="category">
                <option value = "Electronics" selected>Electronics</option>
                <option value = "Furnitures">Furnitures</option>
                <option value = "Automobiles">Automobiles</option>
              </select>
           </p>
        </fieldset>
+       <script>
+            document.getElementById("category-of-interest").value = "{{ itemForBid.category }}";
+        </script>
     <br>
     <label>
       Description
@@ -58,11 +62,11 @@ window.uploadPhotos = function(url){
     <br>
     <label>
       Time Period (in Minutes)
-      <input type="number" name="time_period"  placeholder=""  value="{{itemForBid.timeperiod}}" class="full-width-input" step="5"/>
+      <input type="number" name="time_period"  placeholder=""  value="{{itemForBid.time_period}}" class="full-width-input" step="5"/>
     </label>
     <br>
     <label>
-      starting_price
+      Starting price
       <input type="number" name="starting_price" placeholder="00.00" value="{{itemForBid.starting_price}}" class="full-width-input"/>
     </label>
     <br>
@@ -77,7 +81,5 @@ window.uploadPhotos = function(url){
     
   </form>
 
-  {{#if hasErrors}}
-  <p>{{error}}</p>
-  {{/if}}
+ 
 </article>

@@ -71,17 +71,45 @@ router.post("/search", async (req, res) => {
   });
 
 router.post("/", async (req, res) => {
-
-    let ItemInput = req.body;
-    
-    
-
-    if(!ItemInput){
-        res.sendStatus(500);
-        return;
+  let errors=[]
+  let ItemInput
+  let user={}
+    if(req.session.userdata!==undefined){
+        user= await userData.getuser(req.session.userdata)
     }
+  try {
 
-    try {
+    ItemInput = req.body;
+    console.log(ItemInput)
+    
+    if(ItemInput.item_title===''){
+      errors.push("No Item name mentioned")
+    }
+   
+    if(ItemInput.description===''){
+      errors.push("No Item description mentioned")
+    }
+    if(ItemInput.time_period===''){
+      errors.push("No Item time period mentioned")
+    }
+    if(ItemInput.starting_price===''){
+      errors.push("No Item time Starting price mentioned")
+
+    }
+    if(ItemInput.category===''){
+      errors.push("No Item Category period mentioned")
+    }
+    
+    
+    
+    
+
+    
+
+    
+      if(errors.length>0){
+        throw "item input incomplete"
+      }
       
         ItemInput.starting_price=parseFloat(ItemInput.starting_price)
      
@@ -93,8 +121,8 @@ router.post("/", async (req, res) => {
         const newItems = await itemForBidDataApi.addItemForBid(ItemInput);
         res.redirect("/item/"+newItems.item_id);
       } catch (e) {
-        console.log(e);
-        res.sendStatus(500);
+        
+        res.status(400).render("additem",{hasErrors:true,errors:errors,itemForBid:ItemInput,isloggedin: req.session.isloggedin,user:user})
       }
 });
 
