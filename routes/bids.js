@@ -92,7 +92,7 @@ router.post("/", async (req, res) => {
         catArr.push(ItemInput.categoryofinterest);
         ItemInput.category = catArr;
         const newItems = await itemForBidDataApi.addItemForBid(ItemInput);
-        res.status(200).json(newItems);
+        res.redirect("/item/"+newItems.item_id);
       } catch (e) {
         console.log(e);
         res.sendStatus(500);
