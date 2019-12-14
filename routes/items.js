@@ -124,11 +124,12 @@ router.get("/:id", async (req, res) => {
         user: user,
         userrating:userrating,
         userhasrated:userhasrated,
-        showItem: (isUserAdmin || !item.removed),
+        showItem: !item.removed,
         isUserAdmin: isUserAdmin,
         user_id:user._id,
         itemForBid:itemForBid,
-        isowner:isowner
+        isowner: isowner,
+        showRemove: isUserAdmin || isowner
     });
 });
 
@@ -247,12 +248,27 @@ router.post("/", async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-    if (!req.session.isUserAdmin) {
-        res.status(401).json({ error: 'Unauthorized' });
+    const id = req.params.id;
+
+    let item;
+    try {
+        item = await items.getItemById(id);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
         return;
     }
 
-    const id = req.params.id;
+    if (item == null) {
+        res.status(404).json({ success: false, error: 'Item Not Found' });
+        return;
+    }
+
+    console.log(req.session.userdata, item.userid.id.toString());
+    if (req.session.userdata !== item.userid.id.toString() && !req.session.isUserAdmin) {
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+    }
 
     let removedItem;
     try {
@@ -260,11 +276,6 @@ router.delete('/:id', async (req, res) => {
     } catch (e) {
         console.log(e);
         res.status(500).json({ success: false, error: 'Internal Server Error' });
-        return;
-    }
-
-    if (removedItem == null) {
-        res.status(404).json({ success: false, error: 'Item Not Found' });
         return;
     }
 
