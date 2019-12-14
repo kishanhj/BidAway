@@ -47,7 +47,7 @@ window.uploadPhotos = function(url){
           <legend>Categories</legend>
           <p>
              <label>Select list</label>
-             <select id = "category-of-interest" name="category">
+             <select id = "category-of-interest" name="category" >
                <option value = "Electronics" selected>Electronics</option>
                <option value = "Furniture">Furniture</option>
                <option value = "Automobile">Automobile</option>
@@ -55,7 +55,7 @@ window.uploadPhotos = function(url){
           </p>
        </fieldset>
        <script>
-            document.getElementById("category-of-interest").value = "{{ itemForBid.category }}";
+            document.getElementById("category-of-interest").value = {{ category }};
         </script>
     <br>
     <label>

@@ -5,6 +5,7 @@ const userData = data.users
 const itemdata = data.items
 
 
+
 router.get("/" ,async function(req,res){
     console.log(1)
     if(req.session.isloggedin!==undefined && req.session.isloggedin==true){
@@ -16,10 +17,8 @@ router.get("/" ,async function(req,res){
 
 })
 
-
-
 router.post("/",async function(req,res){
-    const userinfo=req.body
+    const userinfo=req.body;
     const error=[]
     if(!userinfo){
         error.push("No Data Entered")

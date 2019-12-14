@@ -48,7 +48,7 @@ router.get('/additem', async (req, res) => {
         user= await userData.getuser(req.session.userdata)
     }
     
-    res.render("additem",{isloggedin: req.session.isloggedin,user:user});
+    res.render("additem",{isloggedin: req.session.isloggedin,user:user,category:"Electronics"});
 });
 
 router.get("/:id", async (req, res) => {
@@ -214,7 +214,7 @@ router.get("/cat/:cat", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const item = req.body;
+    const item = xss(req.body);
 
     const err = [];
     if (!isValidString(item.name))

@@ -3,6 +3,7 @@ const uuidv1 = require('uuid/v1');
 const router = express.Router();
 const itemForBidDataApi = require("../data/bids");
 const userData = require("../data/user");
+const xss= require("xss")
 
 router.get("/:id", async (req, res) => {
   try {
@@ -53,7 +54,7 @@ router.post("/search", async (req, res) => {
         user= await userData.getuser(req.session.userdata)
       }
       
-      const activeBidList = await itemForBidDataApi.getItemsForBidByCategory(req.body.category);
+      const activeBidList = await itemForBidDataApi.getItemsForBidByCategory(xss(req.body.category));
 
       res.render("searchMain",{
         activeBidList:activeBidList,
@@ -104,6 +105,7 @@ router.post("/", async (req, res) => {
       errors.push("No Item Category period mentioned")
     }
 
+
         const itemImage = req.files.itemImage;
         const indexOfDot = itemImage.name.lastIndexOf('.');
         if (indexOfDot === -1) {
@@ -137,7 +139,7 @@ router.post("/", async (req, res) => {
         res.redirect("/item/"+newItems.item_id);
       } catch (e) {
           console.log('Bad Req: ' + e);
-        res.status(400).render("additem",{hasErrors:true,errors:errors,itemForBid:ItemInput,isloggedin: req.session.isloggedin,user:user})
+        res.status(400).render("additem",{hasErrors:true,errors:errors,itemForBid:ItemInput,isloggedin: req.session.isloggedin,user:user,category:ItemInput.category})
       }
 });
 
