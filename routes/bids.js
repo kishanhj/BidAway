@@ -61,7 +61,6 @@ router.post("/search", async (req, res) => {
         user_id:req.session.userdata,
         isloggedin:req.session.isloggedin,
         user:user,
-        category:req.body.category,
         isSearch:true});
       
     } catch (e) {
