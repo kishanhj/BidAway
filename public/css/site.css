@@ -126,6 +126,10 @@ html {
   /* background-color: #0072ee; */
 }
 
+.btn-primary {
+  background-color: #0072ee;
+}
+
 .navbar-brand{
   font-size: 30px;
 }
