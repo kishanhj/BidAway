@@ -96,7 +96,7 @@ const getAllItemsForBid = async function getAllItemsForBid() {
 
     const bidsCollection = await itemForBidCollectionObj();
     const allbids = await bidsCollection.find({}).toArray();
-    return buildItemForBidDisplayData(allbids,false,false);
+    return buildItemForBidDisplayData(allbids,false,true);
   }
 
   /**
@@ -106,7 +106,7 @@ const getAllActiveItemsForBid = async function getAllActiveItemsForBid() {
 
     const bidsCollection = await itemForBidCollectionObj();
     const allbids = await bidsCollection.find({}).toArray();
-    return buildItemForBidDisplayData(allbids,true,false);
+    return buildItemForBidDisplayData(allbids,true,true);
   }
 
 async function buildItemForBidDisplayData(allbids,shouldBeActive,remDeletedItems){
@@ -171,7 +171,7 @@ const getItemsForBidByCategory = async function getItemsForBidByCategory(categor
     const bidsCollection = await itemForBidCollectionObj();
     let allbids = await bidsCollection.find({category:categoryInput}).toArray();
 
-    return buildItemForBidDisplayData(allbids,true,false);
+    return buildItemForBidDisplayData(allbids,true,true);
   }
 
 
@@ -255,6 +255,7 @@ const bidWinnerUpdate = async function updateWinners(){
         if(et > now)
         continue;
 
+        console.log("1 winner updated")
         const bidArray = bid.bids;
         const winningBid = bidArray[0];
         var updatedPost ={
