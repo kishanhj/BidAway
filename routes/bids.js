@@ -73,6 +73,7 @@ router.post("/search", async (req, res) => {
 router.post("/", async (req, res) => {
 
     let ItemInput = req.body;
+    console.log(ItemInput)
 
     if(!ItemInput){
         res.sendStatus(500);
@@ -80,6 +81,11 @@ router.post("/", async (req, res) => {
     }
 
     try {
+      
+        ItemInput.user_id=req.session.userdata;
+        const catArr = [];
+        catArr.push(ItemInput.category);
+        ItemInput.category = catArr;
         const newItems = await itemForBidDataApi.addItemForBid(ItemInput);
         res.status(200).json(newItems);
       } catch (e) {

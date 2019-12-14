@@ -9,11 +9,14 @@ const itemDataApi = require("./items");
  * @param {object} bidInput 
  */
 const addItemForBid = async function addItemForBid(itemForBid){
+    itemForBid.starting_price=parseFloat(itemForBid.starting_price)
 
-    if(!itemForBid.user_id || ! typeof itemForBid.user_id === "string") throw "Invalid User Id";
-    if(!itemForBid.starting_price || ! typeof itemForBid.starting_price === "number") throw "Invalid Strating Price";
-    if(!itemForBid.category || ! Array.isArray(itemForBid.category) || itemForBid.category.length === 0) throw "Error in category";
-    if(!itemForBid.time_period || ! typeof itemForBid.time_period === "object") throw "Error ending time";
+    if(!itemForBid.user_id || !typeof itemForBid.user_id === "string") throw "Invalid User Id";
+    console.log(itemForBid.starting_price)
+    console.log( typeof itemForBid.starting_price)
+    if( !itemForBid.starting_price || !typeof itemForBid.starting_price === "number") throw "Invalid Starting Price";
+    if( !itemForBid.category ||!Array.isArray(itemForBid.category) || itemForBid.category.length === 0) throw "Error in category";
+    if(!itemForBid.time_period || !typeof itemForBid.time_period === "object") throw "Error ending time";
 
     const date = new Date();
     const time = parseInt(itemForBid.time_period);
@@ -31,7 +34,6 @@ const addItemForBid = async function addItemForBid(itemForBid){
     console.log(item);
     const newItemForBid = {
         "starting_price" : itemForBid.starting_price,
-        "current_price":itemForBid.starting_price,
         "category" : itemForBid.category,
         "starting_time" : now,
         "ending_time":date,
