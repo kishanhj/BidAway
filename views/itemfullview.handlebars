@@ -186,12 +186,12 @@
             <div class="input-group-append">
                 {{#if isloggedin }}
                     {{#if isowner}}
-                        <button class="btn btn-outline-secondary" type="submit" disabled>owner can't rate Rate Item</button>
+                        <button class="btn btn-outline-secondary ratebutton-disabled" type="submit" disabled>owner can't rate Rate Item</button>
                      {{else}}   
-                        <button class="btn btn-outline-secondary" type="submit">Rate Item</button>
+                        <button class="btn btn-outline-secondary rate-item" type="submit">Rate Item</button>
                     {{/if}}
                  {{else}}
-                         <button class="btn btn-outline-secondary" type="submit" disabled>log in to Rate Item</button>
+                         <button class="btn btn-outline-secondary ratebutton-disabled" type="submit" disabled>log in to Rate Item</button>
                   {{/if}}
             </div>
             </form>
@@ -217,7 +217,7 @@
              {{#if isloggedin }}
             <button class="btn btn-primary" type="submit">Add Comment</button>
             {{else}}
-            <button class="f-item-btn" disabled> Add comment </button>
+            <button class="btn btn-primary comment-disabled" disabled> Add comment </button>
             {{/if}}
             
         </form>

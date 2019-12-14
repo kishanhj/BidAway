@@ -33,11 +33,11 @@
     </div>
    
     
-  </div>
+  
 
      <div class="form-group">
       <label for="validationServer05">DOB :</label>
-      <input type="date" name="DOB" placeholder="YYYY-MM-DD" value="{{userinfo.DOB}}" class="form-control" id="validationServer05">
+      <input type="date" name="DOB" value="{{userinfo.DOB}}" class="form-control" id="validationServer05">
       
     </div>
     
@@ -45,36 +45,6 @@
   <button class="btn btn-primary" type="submit">Submit form</button>
 </form>
 
-  {{!-- <form action="/users/edituser?_method=put" method="POST" class="new-post-form">
-    <label>
-      Username:
-      <input type="text" name="username" placeholder="username more than six characters" value="{{userinfo.username}}" class="full-width-input"/>
-    </label>
-    <br>
-    <label>
-      Phone Number:
-      <input type="number" name="phone_num" placeholder="XXXXXXXXXX" value="{{userinfo.phone_num}}" class="full-width-input"/>
-    </label>
-    <br>
-    <label>
-      Email ID:
-      <input type="text" name="emailid"  placeholder="a****@xxx.com"  value="{{userinfo.emailid}}" class="full-width-input"/>
-    </label>
-    <br>
-    <label>
-      Date of Birth:
-      <input type="date" name="DOB" placeholder="YYYY-MM-DD" value="{{userinfo.DOB}}" class="full-width-input"/>
-    </label>
-    <br>
-
- 
-    <button type="submit">Submit</button>
-    
-  </form>
-
-  {{#if hasErrors}}
-  <p>{{error}}</p>
-  {{/if}}
-</article> --}}
+</article>
 
 

@@ -1,7 +1,7 @@
 <form action = "/bids/search" method="POST" id="aboutForm" class="sf form-inline">
     <div class="form-group mx-sm-3 mb-2">
         <select id="searchDropDown" name="category" class="form-control browser-default custom-select" >
-            <option selected value ="All" selected>Category</option>
+            <option value ="All" selected>Category</option>
             <option value ="Electronics">Electronics</option>
             <option value ="Automobile">Automobile</option>
             <option value ="Furniture">Furniture</option>
@@ -10,9 +10,7 @@
     <button class="btn btn-primary mb-2" type="Submit">Search</button>
 </form>
 
-<script>
-    document.getElementById("searchDropDown").value = "{{category}}";
-</script>
+
 
 <link rel="stylesheet" href="/public/css/search.css">
  <script src = "/socket.io/socket.io.js"></script>
@@ -87,7 +85,7 @@
             id="b_{{_id}}" data-toggle="tooltip" data-placement="bottom" onclick=onBid("{{_id}}","{{user_id}}")>Bid</button>
             {{else}}
             <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="bottom" title="Login to Start Bidding">
-            <button style="pointer-events: none;" class="btn btn-danger bid_button" 
+            <button style="pointer-events: none;" class="btn btn-danger bid_button bid-disabled" 
             id="b_{{_id}}"  disabled>Bid</button>
             </span>
             {{/if}}
@@ -120,7 +118,7 @@
                 if (distance < 0) {
                 clearInterval(x_{{_id}});
                 var btn = document.getElementById("b_{{_id}}");
-                btn.classList.replace("btn-primary","btn-danger");
+                btn.classList.replace("btn-primary","bid-disabled");
                 btn.disabled = true;
                 btn.title = "Expired";
                 document.getElementById("{{_id}}").innerHTML = "EXPIRED";

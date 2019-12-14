@@ -117,7 +117,7 @@ html {
 }
 
 .comment-header{
-  border-bottom: 2.5px solid black;
+  border-bottom: 2.5px solid rgb(255, 255, 255);
 }
 
 .btn{
@@ -139,4 +139,29 @@ html {
   margin-left: 700px;
 }
 
+.nav-link{
+  color:#0072ee ;
+}
 
+.bid-disabled{
+  background-color: #33252b !important;
+  
+}
+
+.ratebutton-disabled{
+  background-color: #202020 !important;
+  color: #ffffff !important;
+}
+
+.rate-item{
+  color: #ffffff !important;
+
+}
+
+.f-item-btn{
+  background-color: #111111 !important
+}
+
+.comment-disabled{
+  background-color:#003064 !important;
+}
