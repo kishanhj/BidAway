@@ -29,8 +29,6 @@ const addItemForBid = async function addItemForBid(itemForBid){
     } catch(err){
         throw err;
     }
-    console.log(itemForBid)
-   console.log(typeof itemForBid.starting_price)
     const newItemForBid = {
         "starting_price" : itemForBid.starting_price,
         "current_price": itemForBid.starting_price,

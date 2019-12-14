@@ -5,7 +5,7 @@ const passwordhash=require('password-hash')
 
 
 
-async function createuser(username,emailid,password,phonenum, DOB,category){
+async function createuser(username,emailid,password,phonenum, DOB,category,isUserAdmin){
 
     if(!username) throw "username is undefined"
     if(typeof username!="string") throw "username is not of type string"
@@ -30,10 +30,9 @@ async function createuser(username,emailid,password,phonenum, DOB,category){
 
     if(!category) throw "No Category mentioned"
 
-    
-
     let hashpassword=passwordhash.generate(password);
-
+    if(!isUserAdmin) isUserAdmin = false;
+    
     const newuser={
         username:username,
         emailid:emailid,
@@ -48,7 +47,8 @@ async function createuser(username,emailid,password,phonenum, DOB,category){
         isactive:true,
         lowerusername:username.toLowerCase(),
         comments:[],
-        ratings:0
+        ratings:0,
+        isUserAdmin:isUserAdmin
 
     }
     const usercollection= await userdata()
