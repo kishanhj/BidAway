@@ -117,7 +117,7 @@
             {{#if isloggedin }}
             <button id="b_{{itemForBid._id}}" title="Adds 10 cents" class="btn btn-primary f-item-btn" onclick=onBid("{{itemForBid._id}}","{{item.userid.id}}")>Bid</button>
             {{else}}
-            <a class="nav-link" href="/users/userlogin"><button id="b_{{itemForBid._id}}" class="btn btn-danger f-item-btn">Login &amp; Start Bidding</button></a>
+            <a class="btn btn-primary" href="/users/userlogin">Login &amp; Start Bidding</a>
             {{/if}}
             </div>
         </div>
