@@ -123,6 +123,7 @@ html {
 .btn{
   font-size: medium;
   margin: 5px;
+  background-color: #0072ee;
 }
 
 .navbar-brand{
@@ -137,3 +138,5 @@ html {
 #editbutton{
   margin-left: 700px;
 }
+
+
