@@ -247,6 +247,11 @@ router.post("/", async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
+    if (!req.session.isUserAdmin) {
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+    }
+
     const id = req.params.id;
 
     let removedItem;
