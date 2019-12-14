@@ -73,7 +73,8 @@ router.post("/search", async (req, res) => {
 router.post("/", async (req, res) => {
 
     let ItemInput = req.body;
-    console.log(ItemInput)
+    
+    
 
     if(!ItemInput){
         res.sendStatus(500);
@@ -81,10 +82,14 @@ router.post("/", async (req, res) => {
     }
 
     try {
-      
+      console.log(1)
+      console.log(ItemInput)
+        ItemInput.starting_Price=parseFloat(ItemInput.starting_Price)
+        console.log(req.session)
         ItemInput.user_id=req.session.userdata;
+        console.log(ItemInput)
         const catArr = [];
-        catArr.push(ItemInput.category);
+        catArr.push(ItemInput.categoryofinterest);
         ItemInput.category = catArr;
         const newItems = await itemForBidDataApi.addItemForBid(ItemInput);
         res.status(200).json(newItems);
