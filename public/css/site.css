@@ -125,3 +125,6 @@ html {
   margin: 5px;
 }
 
+.navbar-brand{
+  font-size: 30px;
+}
