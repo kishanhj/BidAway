@@ -100,13 +100,6 @@ router.post("/", async (req, res) => {
       errors.push("No Item Category period mentioned")
     }
     
-    
-    
-    
-
-    
-
-    
       if(errors.length>0){
         throw "item input incomplete"
       }

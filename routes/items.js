@@ -111,6 +111,8 @@ router.get("/:id", async (req, res) => {
     if(!itemForBid){
         console.log(Invalid);
     }
+    
+    isowner=(String(item.userid.id)===req.session.userdata)
 
     itemForBid.bids = itemForBid.bids.slice(0,10);
     
@@ -125,9 +127,76 @@ router.get("/:id", async (req, res) => {
         showItem: (isUserAdmin || !item.removed),
         isUserAdmin: isUserAdmin,
         user_id:user._id,
-        itemForBid:itemForBid
+        itemForBid:itemForBid,
+        isowner:isowner
     });
 });
+
+router.get('/edititem/:id',async(req,res)=>{
+    id=req.params.id
+    const item= await items.getItemById(id)
+    if(req.session.userdata!==undefined){
+        
+        user= await userData.getuser(req.session.userdata)
+       
+    }
+    isowner=(String(item.userid.id)===req.session.userdata)
+    if(isowner){
+        res.status(200).render("edititem",{itemForBid:item,isloggedin: req.session.isloggedin,user:user,itemid:id})
+
+    }
+    else{
+        res.sendStatus(403)
+    }
+
+})
+
+router.put('/edititem/:id',async (req,res)=>{
+    let id=req.params.id
+    let errors=[]
+    const item= await items.getItemById(id)
+    if(req.session.userdata!==undefined){
+        
+        user= await userData.getuser(req.session.userdata)
+       
+    }
+    try{
+
+        
+        updatediteminfo=req.body
+        if(updatediteminfo.item_title===''){
+        errors.push("No Item name mentioned")
+      }
+     
+      if(updatediteminfo.description===''){
+        errors.push("No Item description mentioned")
+      }
+      if(errors.length>0){
+          throw "Error"
+      }
+      updateInfo={}
+      updateInfo.name=updatediteminfo.item_title
+      updateInfo.description=updatediteminfo.description
+      console.log(1)
+      const itemInfo= await items.updateitem(id,updateInfo)
+    
+
+      res.redirect("/item/"+id)
+
+    }
+    catch(e){
+        
+        res.status(400).render("edititem",{hasErrors:true,errors:errors,itemForBid:item,isloggedin: req.session.isloggedin,user:user,itemid:id})
+
+    }
+    
+
+
+
+
+
+
+})
 
 router.get("/cat/:cat", async (req, res) => {
     const cat = req.params.cat;

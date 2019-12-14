@@ -144,11 +144,28 @@ const removeItem = async (id) => {
     return toBeDeleted;
 };
 
+const updateitem = async(id,updateInfo)=>{ 
+    id = ObjectID(id);
+    await getItemById(id)
+    ensureValidString(updateInfo.name, 'Item Name');
+    ensureValidString(updateInfo.description, 'Item Description');
+    const itemObj ={
+        name:updateInfo.name,
+        description:updateInfo.description,
+    }
+    const itemsCollection = await items();
+    const itemupdateInfo = await itemsCollection.updateOne({_id:ObjectID(id)},{$set:itemObj})
+    return await getItemById(id)
+
+
+}
+
 module.exports = {
     getAllItems,
     getItemById,
     getItemsByCategory,
     addItem,
     removeItem,
-    markItemRemove
+    markItemRemove,
+    updateitem
 };
