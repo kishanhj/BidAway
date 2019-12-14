@@ -47,6 +47,7 @@ const addItems = async (addedUsers) => {
         item_title: 'iPhone XV',
         description: 'You can run, You can hide, but can\'t escape our ecosystem',
         category: ['Electronics'],
+        image: 'public/images/iphone_XV.jpg',
         time_period: "200",
         starting_price: "100.67"
     },{
@@ -54,6 +55,8 @@ const addItems = async (addedUsers) => {
         item_title: 'Google Home',
         description: 'I know what you did last summer',
         category: ['Electronics'],
+        image: 'public/images/google_home.jpg',
+        time_period: "200",
         time_period: "100",
         starting_price: "69.69"
     },{
@@ -61,6 +64,7 @@ const addItems = async (addedUsers) => {
         item_title: 'Galaxy Nexus',
         description: 'Back when Android was cool',
         category: ['Electronics'],
+        image: 'public/images/nexus.jpg',
         time_period: "100",
         starting_price: "330.37"
     },{
@@ -68,6 +72,7 @@ const addItems = async (addedUsers) => {
         item_title: 'Table',
         description: 'Wobbly',
         category: ['Furniture'],
+        image: 'public/images/table.jpg',
         time_period: "11",
         starting_price: "10.67"
     },{
@@ -75,6 +80,7 @@ const addItems = async (addedUsers) => {
         item_title: 'Chair',
         description: 'Two Legs',
         category: ['Furniture'],
+        image: 'public/images/chair.jpg',
         time_period: "167",
         starting_price: "2000.18"
     },{
@@ -82,6 +88,7 @@ const addItems = async (addedUsers) => {
         item_title: 'Couch',
         description: 'Ouch!',
         category: ['Furniture'],
+        image: 'public/images/couch.jpg',
         starting_price: "5.22",
         time_period: "145"
     }];
