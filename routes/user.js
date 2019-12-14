@@ -167,7 +167,11 @@ router.get("/userdetails", async function(req,res){
             if(user.items_sold.length!=0){
                 for(i=0;i<user.items_sold.length;i++){
                     let item=await itemdata.getItemById(user.items_sold[i])
-                    items_sold.push({id:item._id,name:item.name})
+                    if(item.removed===undefined || item.removed!==true ){
+                        items_sold.push({id:item._id,name:item.name})
+
+                    }
+                    
                 }
             }
             user.items_sold=items_sold
@@ -175,7 +179,9 @@ router.get("/userdetails", async function(req,res){
             if(user.items_won.length!=0){
                 for(i=0;i<user.items_won.length;i++){
                     let item=await itemdata.getItemById(user.items_won[i])
+                    if(item.removed===undefined || item.removed!==true ){
                     items_won.push({id:item._id,name:item.name})
+                    }
                 }
             }
             user.items_won=items_won

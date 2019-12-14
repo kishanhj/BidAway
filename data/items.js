@@ -1,6 +1,7 @@
 const { items } = require("../database/mongoCollection");
 const mongocollection = require('../database/mongoCollection');
 const users=mongocollection.users;
+const itemsforbid= mongocollection.itemsForBid;
 const commentdata= require("../data/comments")
 const ratingdata = require("../data/ratings")
 const ObjectID = require('mongodb').ObjectID;
@@ -128,15 +129,22 @@ const removeItem = async (id) => {
 
     if (!toBeDeleted)
         return null;
-    const commentcollection= await commentdata();
+    
     if(toBeDeleted.comments.length>0){
             for(let i=0;i<toBeDeleted.comments.length;i++){
-                await commentcollection.deleteOne({_id:ObjectID(toBeDeleted.comments[i].id)})
+                await commentdata.deletecomment(toBeDeleted.comments[i].id)
             }
     }
+    const usercollections=await users()
+    const deleteitem= await usercollections.update({_id:ObjectID(toBeDeleted.userid.id)},{$pull:{items_sold:String(toBeDeleted._id)}})
+
+    const itemsforbidcollection=await itemsforbid();
+    const deletediteminfo= itemsforbidcollection.deleteOne({item_id:id})
 
     const itemsCollection = await items();
     const deleteInfo = itemsCollection.deleteOne({ _id: id });
+
+    
 
     if (deleteInfo.deletedCount === 0)
         throw new Error('Could not delete item');
