@@ -1,5 +1,5 @@
 <!-- Remove Item Modal HTML -->
-{{#if isUserAdmin }}
+{{#if showRemove }}
 <div class="modal fade" id="removeItemModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -69,7 +69,7 @@
     }
 </script>
 <section class="f-item">
-    {{#if isUserAdmin }}
+    {{#if showRemove }}
         {{#if item.removed}}
         <div class="f-item-remove">
             <span class="text-danger">This item has been removed</span>
