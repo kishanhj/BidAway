@@ -13,7 +13,7 @@ const addItemForBid = async function addItemForBid(itemForBid){
 
     if(!itemForBid.user_id || !typeof itemForBid.user_id === "string") throw "Invalid User Id";
     console.log(itemForBid)
-    if( !itemForBid.starting_Price || !typeof itemForBid.starting_Price === "number") throw "Invalid Starting Price";
+    if( !itemForBid.starting_price || !typeof itemForBid.starting_price === "number") throw "Invalid Starting Price";
     if( !itemForBid.category ||!Array.isArray(itemForBid.category) || itemForBid.category.length === 0) throw "Error in category";
     if(!itemForBid.time_period || !typeof itemForBid.time_period === "object") throw "Error ending time";
 

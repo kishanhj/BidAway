@@ -82,14 +82,13 @@ router.post("/", async (req, res) => {
     }
 
     try {
-      console.log(1)
-      console.log(ItemInput)
-        ItemInput.starting_Price=parseFloat(ItemInput.starting_Price)
-        console.log(req.session)
+      
+        ItemInput.starting_price=parseFloat(ItemInput.starting_price)
+     
         ItemInput.user_id=req.session.userdata;
         console.log(ItemInput)
         const catArr = [];
-        catArr.push(ItemInput.categoryofinterest);
+        catArr.push(ItemInput.category);
         ItemInput.category = catArr;
         const newItems = await itemForBidDataApi.addItemForBid(ItemInput);
         res.redirect("/item/"+newItems.item_id);

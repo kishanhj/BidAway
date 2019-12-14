@@ -12,7 +12,7 @@
   <form action="/bids" method="POST" class="new-post-form">
     <label>
      Item Name
-      <input type="text" name="Item_Name" placeholder="item name" value="{{itemForBid.name}}" class="full-width-input"/>
+      <input type="text" name="item_title" placeholder="item name" value="{{itemForBid.name}}" class="full-width-input"/>
     </label>
     
     
@@ -43,8 +43,8 @@ window.uploadPhotos = function(url){
           <legend>Categories</legend>
           <p>
              <label>Select list</label>
-             <select id = "categoryList" name="categoryofinterest">
-               <option value = "Electronics">Electronics</option>
+             <select id = "category" name="category">
+               <option value = "Electronics" selected>Electronics</option>
                <option value = "Furnitures">Furnitures</option>
                <option value = "Automobiles">Automobiles</option>
              </select>
@@ -53,17 +53,17 @@ window.uploadPhotos = function(url){
     <br>
     <label>
       Description
-      <input type="text" size=40 name="Description"  placeholder="Item Description"  value="{{itemForBid.description}}" class="full-width-input"/>
+      <input type="text" size=40 name="description"  placeholder="Item Description"  value="{{itemForBid.description}}" class="full-width-input"/>
     </label>
     <br>
     <label>
-      Start Date & time
-      <input type="time" name="startDatetime"  placeholder=""  value="{{itemForBid.timeperiod}}" class="full-width-input"/>
+      Time Period (in Minutes)
+      <input type="number" name="time_period"  placeholder=""  value="{{itemForBid.timeperiod}}" class="full-width-input" step="5"/>
     </label>
     <br>
     <label>
       starting_price
-      <input type="number" name="starting_Price" placeholder="00.00" value="{{itemForBid.starting_price}}" class="full-width-input"/>
+      <input type="number" name="starting_price" placeholder="00.00" value="{{itemForBid.starting_price}}" class="full-width-input"/>
     </label>
     <br>
        

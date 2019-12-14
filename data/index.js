@@ -6,10 +6,21 @@ const bids=require("./bids")
 
 // async function main(){
 //     try{
+//         item={
+//     item_title: 'iPhone XV',
+//     description: 'You can run, You can hide, but can\'t escape our ecosystem',
+//     category: ['Electronics'],
+//     time_period: "2",
+//     starting_Price: "100.67",
+//     user_id:"5df297a72d325e3dc28d00b2"
+    
+
+//         }
+        
        
-//         // const comment= await items.addItem(item.name,item.category,item.description,item.startPrice,item.startTime,"5df2986fd8ea493e20b732ea")
-//        const rating= await userdata.additem_winner("5df29845d8ea493e20b732e9","5df415a3de25da77da475ee2")
-//        console.log(rating)
+//         const comment= await bids.addItemForBid(item)
+       
+//        console.log(comment)
         
         
 
