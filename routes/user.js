@@ -117,9 +117,20 @@ router.put("/edituser",async function(req,res){
         updateuser.newDOB=updateduserinfo1.DOB
     }
     
+    
   
    
     try{
+        if (!isValidDate(updateuser.newDOB)) {
+            throw "Invalid date format. Please use yyyy-mm-dd";
+        }
+    
+        const ageDifMs = Date.now() - new Date(updateuser.newDOB).getTime();
+        const ageDate = new Date(ageDifMs); // miliseconds from epoch
+        const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+        if (age < 18) {
+            throw "You should be 18+"
+        }
         console.log(updateuser)
         
         const user=await userData.updateuser(req.session.userdata,updateuser)
