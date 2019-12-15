@@ -8,10 +8,11 @@ the site can bid for it. Along with bidding other users can like or flag the ite
 authenticity of the item.
 
 ## How to run
-1. Start you Mongo server at `mongodb://localhost:27017/`. This can be changed in `database/settings.json`
-2. run `npm install`
-3. run `npm run seed`
-4. run `npm start` (server will start at port 3000)
+1. Extract ZIP and open terminal in the dir
+2. Start you Mongo server at `mongodb://localhost:27017/`. This can be changed in `database/settings.json`
+3. run `npm install`
+4. run `npm run seed`
+5. run `npm start` (server will start at port 3000)
 
 ## Seed Users
 ##### Normal user #1
