@@ -17,6 +17,15 @@ router.get("/" ,async function(req,res){
 
 })
 
+function isValidDate(dateString) {
+  var regEx = /^\d{4}-\d{2}-\d{2}$/;
+  if(!dateString.match(regEx)) return false;  // Invalid format
+  var d = new Date(dateString);
+  var dNum = d.getTime();
+  if(!dNum && dNum !== 0) return false; // NaN value, Invalid date
+  return d.toISOString().slice(0,10) === dateString;
+}
+
 router.post("/",async function(req,res){
     const userinfo=req.body;
     const error=[]
@@ -38,7 +47,18 @@ router.post("/",async function(req,res){
     if(!userinfo.DOB){
         error.push("No Date of Birth Entered")
     }
-    
+
+    console.log("DOB: " + userinfo.DOB);
+    if (!isValidDate(userinfo.DOB)) {
+        error.push("Invalid date format. Please use yyyy-mm-dd");
+    }
+
+    const ageDifMs = Date.now() - new Date(userinfo.DOB).getTime();
+    const ageDate = new Date(ageDifMs); // miliseconds from epoch
+    const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+    if (age < 18) {
+        error.push("You should be 18+")
+    }
 
     if(error.length>0){
         res.status(400).render('newuser',{title:"Create New User",hasErrors:true,errors:error,userinfo:userinfo})
