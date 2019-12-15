@@ -1,7 +1,6 @@
+const dbConnection = require("../database/mongoConnection");
 const bidsDataApi = require("../data/bids");
 const userDataApi = require("../data/user");
-
-
 
 const addUsers = async function addUsers() {
     const addedUsers = [];
@@ -29,13 +28,15 @@ const addUsers = async function addUsers() {
         "isUserAdmin":true
     }];
 
-    users.forEach(async user => {
-        
+    for (let i = 0; i < users.length; ++i) {
+        const user = users[i];
         const addedUser = await userDataApi.createuser(user.username,user.emailid,user.password,
             user.phone_num,user.DOB,user.category,user.isUserAdmin);
+
         addedUsers.push(addedUser);
-        console.log(addedUser.username, 'added');
-    });
+
+        console.log('User ' + addedUser.username + ' added');
+    }
 
     return addedUsers;
 }
@@ -93,23 +94,27 @@ const addItems = async (addedUsers) => {
         time_period: "145"
     }];
 
-    seedItems.forEach(async item => {
-        
+    for (let i = 0; i < seedItems.length; ++i) {
+        const item = seedItems[i];
         await bidsDataApi.addItemForBid(item);
-       // console.log(item.item_title, 'added');
-    });
+        console.log('Item added ' + item.item_title + ' added');
+    }
 }
 
 
 
 const main = async () => {
-    const addedUsers = await addUsers();
-   const interval = setInterval(() => {
-       console.log(addedUsers._id)
-     addItems(addedUsers);
-    clearInterval(interval);
-   }, 5000);
+    console.log('Droping existing DB');
+    const db = await dbConnection();
+    await db.dropDatabase();
 
+    console.log('Addding User...');
+    const addedUsers = await addUsers();
+
+    console.log('Addding Item...');
+    await addItems(addedUsers);
+
+    process.exit();
 }
 
 (async () => await main())()

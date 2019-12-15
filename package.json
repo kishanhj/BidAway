@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "seed": "node tasks/seed.js",
-    "seedBids": "node tasks/bidsSeed.js"
+    "seed": "node tasks/bidsSeed.js"
   },
   "repository": {
     "type": "git",
