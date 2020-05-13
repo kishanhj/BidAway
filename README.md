@@ -2,6 +2,8 @@
 
 ## BidAway (A real-time bidding platform)
 
+![screenshot](./screenshot.png)
+
 This is a bidding website where users can put up any item up for bidding or they can bid for
 items. Users can upload any item that they have they aren’t using anymore and other users in
 the site can bid for it. Along with bidding other users can like or flag the item to show the
